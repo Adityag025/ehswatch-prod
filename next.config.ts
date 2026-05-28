@@ -1,3 +1,5 @@
+import type { NextConfig } from "next";
+
 const IS_VERCEL = process.env.VERCEL === '1';
 const BASE_PATH = IS_VERCEL ? "" : "/ehswatch-stage";
 
