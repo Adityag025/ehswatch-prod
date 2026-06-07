@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
-const BASE_PATH = "/ehswatch-website";
+const IS_VERCEL = process.env.VERCEL === '1';
+const BASE_PATH = IS_VERCEL ? "" : "/ehswatch-stage";
 
 const nextConfig: NextConfig = {
   output: "export",
