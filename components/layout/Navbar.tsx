@@ -55,8 +55,8 @@ export default function Navbar({
       const nav    = navRef.current;
       if (!header || !nav) { raf = 0; return; }
 
-      // On mobile, always use a solid white background — skip the scroll animation
-      if (window.innerWidth < 1024) {
+      // On mobile/tablet, always use a solid white background — skip the scroll animation
+      if (window.innerWidth <= 1024) {
         nav.style.background     = "rgba(255,255,255,0.97)";
         nav.style.boxShadow      = "0 2px 12px rgba(0,0,0,0.07)";
         nav.style.backdropFilter = "blur(12px)";
