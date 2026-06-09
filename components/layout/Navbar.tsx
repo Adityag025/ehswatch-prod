@@ -213,8 +213,11 @@ export default function Navbar({
                   </svg>
                 </button>
 
+                {/* Invisible bridge — fills the gap so hover isn't lost moving to the dropdown */}
+                <div className="absolute top-full left-0 right-0 h-[10px]" />
+
                 {/* Dropdown panel — image + title + desc, 2-column */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-[0_20px_56px_rgba(0,0,0,0.14)] border border-[#f0f2f5] p-4 w-[480px] opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 translate-y-2 group-hover:translate-y-0 z-50">
+                <div className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-[0_20px_56px_rgba(0,0,0,0.14)] border border-[#f0f2f5] p-4 w-[480px] opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 translate-y-2 group-hover:translate-y-0 z-50">
                   {/* caret */}
                   <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-l border-t border-[#f0f2f5] rotate-45" />
                   <div className="grid grid-cols-2 gap-3">
