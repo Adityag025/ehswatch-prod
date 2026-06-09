@@ -197,7 +197,7 @@ export default function Navbar({
               <div
                 key={link.label}
                 ref={(el) => { linkRefs.current[i] = el; }}
-                className="relative group shrink-0 pb-[10px]"
+                className="relative group shrink-0"
                 style={{
                   color: initColor, textShadow: initShadow,
                   fontSize: "15px", paddingLeft: "14px", paddingRight: "14px",
