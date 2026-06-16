@@ -182,6 +182,7 @@ function MediaBlock({ industry }: { industry: Industry }) {
   useEffect(() => {
     const vid = videoRef.current;
     if (!vid) return;
+    vid.load();
     vid.currentTime = 0;
     vid.play().catch(() => {});
   }, [industry]);
@@ -198,7 +199,9 @@ function MediaBlock({ industry }: { industry: Industry }) {
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
       {industry.video ? (
         <video
+          key={industry.video}
           ref={videoRef}
+          autoPlay
           muted
           loop
           playsInline
