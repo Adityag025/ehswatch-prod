@@ -95,6 +95,7 @@ export default function SolutionsIndustries() {
   const [inView,      setInView]      = useState(false);
   const [stylesReady, setStylesReady] = useState(false);
   const [visible,     setVisible]     = useState(true);
+  const [videoReady,  setVideoReady]  = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const prevActive = useRef(0);
 
@@ -134,10 +135,12 @@ export default function SolutionsIndustries() {
     if (active === prevActive.current) return;
     prevActive.current = active;
     setVisible(false);
+    setVideoReady(false);
     setTimeout(() => setVisible(true), 200);
   }, [active]);
 
   const ind = INDUSTRIES[active];
+  const nextInd = INDUSTRIES[(active + 1) % N];
 
   return (
     <section
@@ -215,14 +218,22 @@ export default function SolutionsIndustries() {
           {/* Content panel */}
           <div className="flex flex-col md:flex-row items-center min-h-[440px] md:min-h-[500px] px-8 md:px-12 py-8 md:py-12 gap-8 md:gap-12">
 
-            {/* Left — GIF */}
+            {/* Left — video */}
             <div
-              className="flex-none md:flex-[0_0_54%] flex items-center justify-center"
+              className="flex-none md:flex-[0_0_54%] flex items-center justify-center relative"
               style={{
                 opacity: visible ? 1 : 0,
                 transition: "opacity 0.25s ease",
+                minHeight: "220px",
               }}
             >
+              {/* Spinner shown while buffering */}
+              {!videoReady && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full border-2 border-[#e2e8f0] border-t-[#155eef] animate-spin" />
+                </div>
+              )}
+
               {ind.video.endsWith(".mp4") ? (
                 <video
                   key={ind.video}
@@ -231,8 +242,16 @@ export default function SolutionsIndustries() {
                   loop
                   muted
                   playsInline
+                  preload="auto"
+                  onCanPlay={() => setVideoReady(true)}
                   className="w-full h-auto rounded-[8px]"
-                  style={{ maxHeight: "500px", objectFit: "contain", display: "block" }}
+                  style={{
+                    maxHeight: "500px",
+                    objectFit: "contain",
+                    display: "block",
+                    opacity: videoReady ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
                 />
               ) : (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -240,11 +259,29 @@ export default function SolutionsIndustries() {
                   key={ind.video}
                   src={ind.video}
                   alt={ind.label}
+                  onLoad={() => setVideoReady(true)}
                   className="w-full h-auto rounded-[8px]"
-                  style={{ maxHeight: "500px", objectFit: "contain", display: "block" }}
+                  style={{
+                    maxHeight: "500px",
+                    objectFit: "contain",
+                    display: "block",
+                    opacity: videoReady ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
                 />
               )}
             </div>
+
+            {/* Hidden preloader for next industry video */}
+            {nextInd.video.endsWith(".mp4") && nextInd.video !== ind.video && (
+              <video
+                key={`preload-${nextInd.video}`}
+                src={nextInd.video}
+                preload="auto"
+                muted
+                style={{ display: "none" }}
+              />
+            )}
 
             {/* Right — heading + solution bullets */}
             <div

@@ -178,8 +178,10 @@ function MediaPlaceholder({ label }: { label: string }) {
 /* ── Media panel (video or placeholder) ── */
 function MediaBlock({ industry }: { industry: Industry }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
+    setVideoReady(false);
     const vid = videoRef.current;
     if (!vid) return;
     vid.load();
@@ -197,6 +199,13 @@ function MediaBlock({ industry }: { industry: Industry }) {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+      {/* Spinner while buffering */}
+      {!videoReady && (
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="w-8 h-8 rounded-full border-2 border-[#e2e8f0] border-t-[#155eef] animate-spin" />
+        </div>
+      )}
+
       {industry.video ? (
         <video
           key={industry.video}
@@ -205,14 +214,33 @@ function MediaBlock({ industry }: { industry: Industry }) {
           muted
           loop
           playsInline
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
           className="w-full h-full"
-          style={{ objectFit: "contain", objectPosition: "center", transform: "scale(1.4)" }}
+          style={{
+            objectFit: "contain",
+            objectPosition: "center",
+            transform: "scale(1.4)",
+            opacity: videoReady ? 1 : 0,
+            transition: "opacity 0.3s ease",
+          }}
         >
           <source src={industry.video} type="video/mp4" />
         </video>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={industry.gif!} alt={industry.label} className="w-full h-full" style={{ objectFit: "contain", transform: "scale(0.85)" }} />
+        <img
+          src={industry.gif!}
+          alt={industry.label}
+          onLoad={() => setVideoReady(true)}
+          className="w-full h-full"
+          style={{
+            objectFit: "contain",
+            transform: "scale(0.85)",
+            opacity: videoReady ? 1 : 0,
+            transition: "opacity 0.3s ease",
+          }}
+        />
       )}
     </div>
   );
