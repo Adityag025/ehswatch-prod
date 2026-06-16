@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { basePath } from "@/lib/basePath";
 
-const VID = basePath + "/images/Solutions%20/Videos/";
+const VID = basePath + "/images/Solutions_/Videos/";
 
 interface Solution {
   heading: string;
@@ -21,7 +21,7 @@ const INDUSTRIES: Industry[] = [
   {
     label: "Construction & Infrastructure Projects",
     subcopy: "Keep every site safe, compliant and in control, from groundbreak to handover.",
-    video: VID + "Construction%20%26%20Infrastructure.mp4",
+    video: VID + "construction-infrastructure.mp4",
     gif: null,
     solutions: [
       {
@@ -45,7 +45,7 @@ const INDUSTRIES: Industry[] = [
   {
     label: "Manufacturing & Engineering",
     subcopy: "Protect your workforce, your plant and your production continuity.",
-    video: VID + "Manufacturing-%26-Engineering.mp4",
+    video: VID + "manufacturing-engineering.mp4",
     gif: null,
     solutions: [
       { heading: "Machine and Equipment Risk Assessment", body: "Create and maintain structured risk assessments for every piece of plant and equipment, documenting identified hazards, control hierarchy and residual risk ratings." },
@@ -57,7 +57,7 @@ const INDUSTRIES: Industry[] = [
   {
     label: "Oil, Gas & Energy",
     subcopy: "Eliminate permit gaps, accelerate investigations and protect your most critical assets.",
-    video: VID + "Oil-Gas-Energy.mp4",
+    video: VID + "oil-gas-energy.mp4",
     gif: null,
     solutions: [
       { heading: "Digitised Permit-to-Work with Mandatory Controls", body: "Replace paper-based PTW systems with a digital workflow that enforces approval chains, links every permit to its associated risk assessment and JSA, tracks permit validity in real time and prevents unauthorised hot work or high-hazard tasks from proceeding without documented controls." },
@@ -69,7 +69,7 @@ const INDUSTRIES: Industry[] = [
   {
     label: "Logistics, Ports & Transport",
     subcopy: "Keep drivers safer, warehouses compliant, and every incident on record.",
-    video: VID + "Logistics%2C-Warehousing-%26-Transport.mp4",
+    video: VID + "logistics-warehousing-transport.mp4",
     gif: null,
     solutions: [
       { heading: "Fleet Incident and Near-Miss Reporting", body: "Give drivers and fleet supervisors a fast, mobile-first way to report road incidents, near misses, vehicle defects and cargo-handling injuries from any device." },
@@ -81,7 +81,7 @@ const INDUSTRIES: Industry[] = [
   {
     label: "Facilities & Property Management",
     subcopy: "Protect every building, every contractor and every occupant under your responsibility.",
-    video: VID + "Facilities-%26-Property-Management-3.mp4",
+    video: VID + "facilities-property-management.mp4",
     gif: null,
     solutions: [
       { heading: "Contractor Onboarding and Safety Qualification", body: "Manage contractor inductions, safety questionnaires, insurance verification and site access authorisation through a structured digital workflow." },
@@ -93,7 +93,7 @@ const INDUSTRIES: Industry[] = [
   {
     label: "Energy & Utilities",
     subcopy: "Protect field teams, manage regulatory obligations and maintain safe operations across live networks.",
-    video: VID + "Utilities-and-Public-Services.mp4",
+    video: VID + "utilities-and-public-services.mp4",
     gif: null,
     solutions: [
       { heading: "Control-of-Work and Isolation Safety Management", body: "Digitise permit-to-work, isolation and switching safety procedures with configurable digital workflows that enforce mandatory authorisation steps, track isolation point status in real time and prevent live-network work from proceeding without documented controls." },
