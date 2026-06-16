@@ -151,10 +151,9 @@ export default function HeroDashboard() {
   return (
     <div
       ref={ref}
-      className="w-full bg-[#f6f5f5] h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden"
+      className="w-full flex flex-col bg-[#f6f5f5] h-[420px] sm:h-[500px] md:h-[600px] overflow-hidden"
       style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
     >
-      <div className="w-[200%] sm:w-full h-[800px] sm:h-full flex flex-col origin-top-left scale-[0.5] sm:scale-100">
       {/* ── Browser Chrome Bar ────────────────────────────────────────────────── */}
       <div className="h-8 bg-[#f0f0f0] border-b border-gray-200 flex items-center px-3 gap-2 flex-shrink-0">
         {/* Traffic lights */}
@@ -422,7 +421,6 @@ export default function HeroDashboard() {
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );

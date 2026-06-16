@@ -149,13 +149,13 @@ function ComplianceMockup() {
               </div>
 
               {/* name + sub */}
-              <div className="min-w-0 flex-1 sm:flex-none sm:flex-[0_0_130px] lg:flex-[0_0_165px]">
+              <div className="min-w-0" style={{ flex: "0 0 clamp(110px,13vw,165px)" }}>
                 <p className="font-semibold text-[#141f38] text-[13px] leading-tight truncate">{row.name}</p>
                 <p className="text-[#808ca6] text-[10px] leading-tight mt-0.5 truncate">{row.sub}</p>
               </div>
 
-              {/* progress — hidden on phone, shown sm+ */}
-              <div className="hidden sm:flex flex-1 flex-col gap-1 min-w-0">
+              {/* progress */}
+              <div className="flex-1 flex flex-col gap-1 min-w-0">
                 {row.pct !== null ? (
                   <>
                     <span className="font-semibold text-[12px] leading-none" style={{ color: row.barColor }}>
@@ -498,12 +498,12 @@ export default function OnePlatform() {
   // No setInterval needed — the bar completing IS the signal to switch tabs.
 
   return (
-    <section ref={sectionRef} className="bg-[#f8fbff] py-10 md:py-14 lg:py-20 px-4 md:px-6">
+    <section ref={sectionRef} className="bg-[#f8fbff] py-12 md:py-20 px-4 md:px-6">
       <div className="max-w-[1200px] mx-auto">
 
         {/* heading */}
         <div className="text-center mb-10 md:mb-14">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-[1.5] sm:leading-tight text-[#1b1b1b]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-tight text-[#1b1b1b]">
             One Platform for <span className="text-[#155eef]">Everyday Safety</span>
           </h2>
           <p className="mt-3 font-[family-name:var(--font-dm-sans)] font-medium text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed text-[#727272] max-w-[809px] mx-auto">
@@ -529,16 +529,15 @@ export default function OnePlatform() {
                 tabIndex={active === i ? 0 : -1}
                 onClick={() => { setActive(i); setCycleKey((k) => k + 1); }}
                 className={[
-                  "shrink-0 sm:flex-1 flex flex-col items-center justify-center px-3 sm:px-2 md:px-3 py-[12px] md:py-[17px] min-h-[44px] md:min-h-[56px]",
-                  "text-[12px] sm:text-[12px] md:text-[15px] font-medium cursor-pointer",
-                  "transition-colors relative overflow-hidden whitespace-nowrap",
+                  "flex-1 flex flex-col items-center justify-center px-2 md:px-3 py-[14px] md:py-[17px] min-h-[48px] md:min-h-[56px]",
+                  "text-[11px] sm:text-[12px] md:text-[15px] font-medium cursor-pointer",
+                  "transition-colors min-w-0 relative overflow-hidden whitespace-nowrap",
                   i < TABS.length - 1 ? "border-r border-r-[#dde2eb]" : "",
                   active === i ? "text-[#0a0f1e]" : "text-[#888] hover:text-[#555]",
                 ].join(" ")}
               >
                 <span className="flex items-center gap-1">
-                  <span className={`font-[family-name:var(--font-dm-sans)] ${active === i ? "text-[#0a0f1e]" : "text-[#999]"}`}>{tab.number}</span>
-                  {" "}{tab.label}
+                  {tab.label}
                 </span>
                 {inView && active === i && (
                   <span
@@ -563,7 +562,7 @@ export default function OnePlatform() {
           >
             {/* left — text */}
             <div className="flex-none md:flex-[0_0_38%] px-6 md:px-12 py-8 md:py-12 flex flex-col justify-center">
-              <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[20px] md:text-[24px] leading-[1.5] sm:leading-snug text-[#0a0f1e] mb-3">
+              <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[20px] md:text-[24px] leading-snug text-[#0a0f1e] mb-3">
                 {TABS[active].title}
               </h3>
               <p className="font-[family-name:var(--font-dm-sans)] text-[13px] md:text-[15px] text-[#555] leading-relaxed">

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 function CaseStudiesCTA() {
   return (
     <section
-      className="relative py-10 md:py-[50px] px-4 md:px-6 overflow-hidden"
+      className="relative py-12 md:py-[61px] px-4 md:px-6 overflow-hidden"
       style={{
         background: "#f1f7ff",
         backgroundImage: `url(${basePath}/images/product/cta-background.svg)`,

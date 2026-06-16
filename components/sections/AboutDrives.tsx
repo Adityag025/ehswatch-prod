@@ -52,13 +52,13 @@ function TabShape({ label, color }: { label: string; color: string }) {
 
 export default function AboutDrives() {
   return (
-    <section className="bg-[#f1f7ff] py-[40px] md:py-[60px] lg:py-[110px] px-4 md:px-6">
+    <section className="bg-[#f1f7ff] py-[50px] md:py-[90px] lg:py-[110px] px-4 md:px-6">
       <div className="max-w-[1000px] mx-auto">
 
         {/* Heading */}
         <Reveal variant="fade-up" duration={700}>
           <div className="text-center mb-[60px] md:mb-[72px]">
-            <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-[1.5] sm:leading-tight text-[#1b1b1b] tracking-[-0.025em]">
+            <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-tight text-[#1b1b1b] tracking-[-0.025em]">
               Purpose Behind <span className="text-[#155eef]">Every Feature</span>
             </h2>
           </div>

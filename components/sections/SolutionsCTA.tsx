@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import GlareButton from "@/components/ui/GlareButton";
 import { basePath } from "@/lib/basePath";
 
 export default function SolutionsCTA() {
@@ -16,7 +16,7 @@ export default function SolutionsCTA() {
     >
       <div className="max-w-[800px] mx-auto flex flex-col gap-3 md:gap-[16px] items-center">
         <Reveal variant="slide-right" duration={750}>
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[44px] leading-[1.5] sm:leading-tight text-[#0a0f1e] text-center">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[44px] leading-tight text-[#0a0f1e] text-center">
             Does EHSWatch work for your industry?
           </h2>
         </Reveal>
@@ -34,23 +34,25 @@ export default function SolutionsCTA() {
           delay={240}
           className="flex flex-col sm:flex-row gap-3 md:gap-[16px] items-center justify-center pt-4 md:pt-[24px] w-full sm:w-auto"
         >
-          <Link
+          <GlareButton
             href="#"
-            className="w-full sm:w-auto flex items-center justify-center px-6 md:px-[26px] py-3 md:py-[10px] rounded-full font-[family-name:var(--font-inter)] font-medium text-[14px] text-white whitespace-nowrap hover:opacity-90 transition-opacity"
+            className="w-full sm:w-auto px-6 md:px-[26px] py-3 md:py-[10px] rounded-full font-[family-name:var(--font-inter)] font-medium text-[14px] text-white whitespace-nowrap"
             style={{
               backgroundImage:
                 "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
             }}
           >
             Book Your Free Demo
-          </Link>
+          </GlareButton>
 
-          <Link
+          <GlareButton
             href="#"
-            className="w-full sm:w-auto flex items-center justify-center px-7 md:px-[31.5px] py-3 md:py-[10px] rounded-full bg-[rgba(255,120,44,0.1)] border border-[rgba(255,120,44,0.2)] font-[family-name:var(--font-inter)] text-[14px] text-[#ff6d00] hover:bg-orange-50 transition-colors"
+            fillColor="#FFA660"
+            hoverTextColor="#ffffff"
+            className="w-full sm:w-auto px-7 md:px-[31.5px] py-3 md:py-[10px] rounded-full bg-[rgba(255,120,44,0.1)] border border-[rgba(255,120,44,0.2)] font-[family-name:var(--font-inter)] text-[14px] text-[#ff6d00] whitespace-nowrap"
           >
             View Pricing Plans
-          </Link>
+          </GlareButton>
         </Reveal>
       </div>
     </section>

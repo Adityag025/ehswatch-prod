@@ -1,10 +1,13 @@
 "use client";
 
+import GlareButton from "@/components/ui/GlareButton";
+
 export default function AboutHero() {
   return (
     <section
-      className="relative overflow-hidden flex items-center justify-center px-4 sm:px-6 pt-[90px] sm:pt-[110px] md:pt-[130px] pb-[50px] sm:pb-[60px] md:pb-[80px] lg:min-h-[62vh]"
+      className="relative overflow-hidden flex items-center justify-center px-4 sm:px-6 pt-[90px] sm:pt-[120px] md:pt-[148px] pb-[60px] sm:pb-[80px] md:pb-[100px]"
       style={{
+        minHeight: "62vh",
         background: "linear-gradient(to bottom, white 0%, white 85%, rgba(248, 250, 252, 0.5) 100%)",
       }}
     >
@@ -67,7 +70,7 @@ export default function AboutHero() {
       {/* Hero content */}
       <div className="relative z-20 max-w-[720px] w-full mx-auto text-center flex flex-col items-center gap-5 md:gap-6">
         <h1
-          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[34px] sm:text-[48px] md:text-[58px] leading-[1.5] sm:leading-[1.08] text-gray-900 tracking-[-0.03em] animate-hero-rise"
+          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[34px] sm:text-[48px] md:text-[58px] leading-[1.08] text-gray-900 tracking-[-0.03em] animate-hero-rise"
           style={{ animationDelay: "80ms" }}
         >
           Built to Simplify EHSQ.
@@ -82,9 +85,9 @@ export default function AboutHero() {
           The intelligent EHSQ platform trusted by 25K+ teams — making safety faster, simpler and more visible.
         </p>
 
-        <a
+        <GlareButton
           href="#"
-          className="inline-flex items-center gap-2 px-8 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white hover:opacity-90 transition-all duration-200 animate-hero-rise hover:shadow-lg"
+          className="gap-2 px-8 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white animate-hero-rise hover:shadow-lg"
           style={{
             animationDelay: "320ms",
             backgroundImage: "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
@@ -95,7 +98,7 @@ export default function AboutHero() {
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-        </a>
+        </GlareButton>
       </div>
     </section>
   );

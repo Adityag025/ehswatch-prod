@@ -67,10 +67,10 @@ export default function Testimonials({ title }: { title?: React.ReactNode }) {
   const items = [...TESTIMONIALS, ...TESTIMONIALS];
 
   return (
-    <section className="bg-white py-10 md:py-[50px] lg:py-[80px] overflow-hidden">
+    <section className="bg-white py-12 md:py-[80px] overflow-hidden">
       {/* Heading */}
       <div className="px-4 md:px-6 text-center mb-8 md:mb-12">
-        <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] sm:text-[26px] md:text-[30px] lg:text-[34px] leading-[1.5] sm:leading-tight text-[#1b1b1b]">
+        <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] sm:text-[26px] md:text-[30px] lg:text-[34px] leading-tight text-[#1b1b1b]">
           {title ?? <>What <span className="text-[#155eef]">Our Customers</span> Say</>}
         </h2>
       </div>

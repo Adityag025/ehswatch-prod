@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { basePath } from "@/lib/basePath";
+import Link from "next/link";
 
 /* ── Data ───────────────────────────────────────────────────── */
 interface Post {
@@ -10,6 +10,7 @@ interface Post {
   topic: string;
   format: string;
   title: string;
+  excerpt: string;
   date: string;
   dateSort: number;
   readTime: string;
@@ -23,10 +24,11 @@ const POSTS: Post[] = [
     topic: "Incident Management",
     format: "Article",
     title: "How to Build a Near-Miss Reporting Culture That Actually Works",
+    excerpt: "Most near-miss programmes fail not from lack of effort, but from friction. Here's how to make reporting effortless and act on what you capture.",
     date: "May 8, 2026",
     dateSort: 1746662400000,
     readTime: "6 min read",
-    img: `${basePath}/images/blogs/blog-1.png`,
+    img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "iso-45001-transition",
@@ -34,10 +36,11 @@ const POSTS: Post[] = [
     topic: "Compliance",
     format: "Guide",
     title: "ISO 45001 vs OHSAS 18001: What the Transition Really Means for Your Team",
+    excerpt: "The move to ISO 45001 is more than a certificate swap. We break down the practical shifts your team needs to plan for.",
     date: "Apr 29, 2026",
     dateSort: 1745884800000,
     readTime: "8 min read",
-    img: `${basePath}/images/blogs/blog-2.png`,
+    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "leading-indicators-safety",
@@ -45,10 +48,11 @@ const POSTS: Post[] = [
     topic: "Risk Management",
     format: "Article",
     title: "5 Leading Indicators Every Safety Manager Should Be Tracking",
+    excerpt: "Lagging metrics tell you what already went wrong. These five leading indicators help you act before incidents happen.",
     date: "Apr 14, 2026",
     dateSort: 1744588800000,
     readTime: "5 min read",
-    img: `${basePath}/images/blogs/blog-3.png`,
+    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "cost-manual-incident-reporting",
@@ -56,10 +60,11 @@ const POSTS: Post[] = [
     topic: "Operations",
     format: "Article",
     title: "The Hidden Cost of Manual Incident Reporting",
+    excerpt: "Paper forms and spreadsheets cost far more than they seem. We add up the real price of manual incident reporting.",
     date: "Apr 2, 2026",
     dateSort: 1743552000000,
     readTime: "7 min read",
-    img: `${basePath}/images/blogs/blog-1.png`,
+    img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "contractor-safety-management",
@@ -67,10 +72,11 @@ const POSTS: Post[] = [
     topic: "Contractor Management",
     format: "Guide",
     title: "Contractor Safety Management: Where Most Programmes Fall Short",
+    excerpt: "Most contractor safety failures start at the gate. Here's where programmes break down and how to close the gaps.",
     date: "Mar 18, 2026",
     dateSort: 1742256000000,
     readTime: "9 min read",
-    img: `${basePath}/images/blogs/blog-2.png`,
+    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "lagging-to-leading-metrics",
@@ -78,10 +84,11 @@ const POSTS: Post[] = [
     topic: "Risk Management",
     format: "Case Study",
     title: "From Lagging to Leading: Rethinking Your Safety Metrics",
+    excerpt: "A practical guide to shifting your safety reporting from reactive lagging metrics toward proactive leading indicators.",
     date: "Mar 5, 2026",
     dateSort: 1741132800000,
     readTime: "6 min read",
-    img: `${basePath}/images/blogs/blog-3.png`,
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -89,84 +96,60 @@ const TIMELINE_OPTIONS = ["Timeline: All time", "Last month", "Last 3 months", "
 const TOPIC_OPTIONS    = ["Topic: All topics", "Incident Management", "Compliance", "Risk Management", "Operations", "Contractor Management"];
 const FORMAT_OPTIONS   = ["Format: All formats", "Article", "Guide", "Case Study"];
 
-/* ── Category chip ───────────────────────────────────────────── */
-function Chip({ label }: { label: string }) {
-  return (
-    <span
-      className="absolute top-3 left-3 font-[family-name:var(--font-dm-sans)] text-[11px] font-medium px-2.5 py-[5px] rounded-[6px] leading-none z-10"
-      style={{ background: "white", color: "#111827" }}
-    >
-      {label}
-    </span>
-  );
-}
-
 /* ── Featured Card (Row 1): image left, text right ───────────── */
 function FeaturedCard({ post }: { post: Post }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <a
-      href={`/blog/${post.slug}/`}
-      className="group flex flex-col lg:flex-row bg-white overflow-hidden h-full"
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group flex bg-white overflow-hidden h-full"
       style={{
         border: "1px solid #E5E7EB",
-        borderRadius: 12,
-        boxShadow: hovered ? "0 8px 32px rgba(0,0,0,0.10)" : "none",
-        transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        transition: "box-shadow 0.25s ease, transform 0.25s ease",
+        borderRadius: 8,
+        transition: "border-color 0.25s ease",
+        borderColor: hovered ? "#d1d5db" : "#E5E7EB",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Image — full width below desktop (16/9 on phone, 4/3 on iPad), 47% square on desktop */}
-      <div
-        className="relative flex-shrink-0 overflow-hidden w-full lg:w-[47%] aspect-[16/9] sm:aspect-[4/3] lg:aspect-square"
-      >
+      {/* Square image — left ~47% */}
+      <div className="relative flex-shrink-0 overflow-hidden" style={{ width: "47%", aspectRatio: "1/1" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={post.img}
           alt={post.title}
-          className="w-full h-full object-cover rounded-t-[11px] lg:rounded-t-none lg:rounded-l-[11px] block"
+          className="w-full h-full object-cover"
           style={{
+            borderRadius: "7px 0 0 7px",
+            display: "block",
             transform: hovered ? "scale(1.04)" : "scale(1)",
             transition: "transform 0.5s ease",
           }}
         />
-        <Chip label={post.category} />
-        {/* Arrow — always visible, brightens on hover */}
-        <div
-          className="absolute bottom-3 right-3 w-7 h-7 bg-white rounded-full flex items-center justify-center"
-          style={{
-            boxShadow: "0 1px 6px rgba(0,0,0,0.12)",
-            opacity: hovered ? 1 : 0.7,
-            transition: "opacity 0.2s",
-          }}
-        >
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-            <path d="M2.5 9.5l7-7M9.5 2.5H3.5M9.5 2.5v6" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
       </div>
 
-      {/* Text — bottom on iPad, right (vertically centered) on desktop */}
-      <div className="flex flex-col justify-center px-5 py-5 lg:px-7 lg:py-7 flex-1">
+      {/* Text — right, vertically centered */}
+      <div className="flex flex-col justify-center px-7 py-7" style={{ flex: 1 }}>
         <p className="font-[family-name:var(--font-dm-sans)] text-[12px] mb-3 flex items-center gap-1.5" style={{ color: "#6B7280" }}>
           {post.date}
           <span className="inline-block w-[3px] h-[3px] rounded-full" style={{ background: "#6B7280" }} />
           {post.readTime}
         </p>
         <h3
-          className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[17px] leading-[1.35] mb-4 lg:mb-5"
+          className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[17px] leading-[1.35] mb-3"
           style={{ color: "#111827" }}
         >
           {post.title}
         </h3>
+        <p
+          className="font-[family-name:var(--font-dm-sans)] text-[13px] leading-[1.6] mb-5 line-clamp-3 text-pretty"
+          style={{ color: "#6B7280" }}
+        >
+          {post.excerpt}
+        </p>
         <span
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium font-[family-name:var(--font-dm-sans)]"
-          style={{
-            color: hovered ? "#111827" : "#6B7280",
-            transition: "color 0.2s",
-          }}
+          className="inline-flex items-center gap-1.5 text-[13px] font-semibold font-[family-name:var(--font-dm-sans)]"
+          style={{ color: "#FF6D00" }}
         >
           Read more
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
@@ -174,7 +157,7 @@ function FeaturedCard({ post }: { post: Post }) {
           </svg>
         </span>
       </div>
-    </a>
+    </Link>
   );
 }
 
@@ -182,15 +165,14 @@ function FeaturedCard({ post }: { post: Post }) {
 function StandardCard({ post }: { post: Post }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <a
-      href={`/blog/${post.slug}/`}
+    <Link
+      href={`/blog/${post.slug}`}
       className="group flex flex-col bg-white overflow-hidden h-full"
       style={{
         border: "1px solid #E5E7EB",
-        borderRadius: 12,
-        boxShadow: hovered ? "0 8px 32px rgba(0,0,0,0.10)" : "none",
-        transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        transition: "box-shadow 0.25s ease, transform 0.25s ease",
+        borderRadius: 8,
+        transition: "border-color 0.25s ease",
+        borderColor: hovered ? "#d1d5db" : "#E5E7EB",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -203,13 +185,12 @@ function StandardCard({ post }: { post: Post }) {
           alt={post.title}
           className="w-full h-full object-cover"
           style={{
-            borderRadius: "11px 11px 0 0",
+            borderRadius: "7px 7px 0 0",
             display: "block",
             transform: hovered ? "scale(1.04)" : "scale(1)",
             transition: "transform 0.5s ease",
           }}
         />
-        <Chip label={post.category} />
       </div>
 
       {/* Text */}
@@ -220,17 +201,20 @@ function StandardCard({ post }: { post: Post }) {
           {post.readTime}
         </p>
         <h3
-          className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[17px] leading-[1.35] line-clamp-2 mb-4 flex-1"
+          className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[17px] leading-[1.35] line-clamp-2 mb-2.5"
           style={{ color: "#111827" }}
         >
           {post.title}
         </h3>
+        <p
+          className="font-[family-name:var(--font-dm-sans)] text-[12.5px] leading-[1.6] line-clamp-2 mb-4 flex-1 text-pretty"
+          style={{ color: "#6B7280" }}
+        >
+          {post.excerpt}
+        </p>
         <span
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium font-[family-name:var(--font-dm-sans)]"
-          style={{
-            color: hovered ? "#111827" : "#6B7280",
-            transition: "color 0.2s",
-          }}
+          className="inline-flex items-center gap-1.5 text-[13px] font-semibold font-[family-name:var(--font-dm-sans)]"
+          style={{ color: "#FF6D00" }}
         >
           Read more
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
@@ -238,7 +222,7 @@ function StandardCard({ post }: { post: Post }) {
           </svg>
         </span>
       </div>
-    </a>
+    </Link>
   );
 }
 
@@ -246,11 +230,11 @@ function StandardCard({ post }: { post: Post }) {
 function FilterSelect({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: string[] }) {
   const isDefault = value === options[0];
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="appearance-none font-[family-name:var(--font-dm-sans)] text-[13px] bg-white rounded-full pl-4 pr-8 py-[9px] border cursor-pointer focus:outline-none focus:border-[#111827] transition-colors"
+        className="w-full appearance-none font-[family-name:var(--font-dm-sans)] text-[13px] bg-white rounded-full pl-5 pr-8 py-[11px] border cursor-pointer focus:outline-none focus:border-[#111827] transition-colors"
         style={{
           WebkitAppearance: "none",
           borderColor: isDefault ? "#E5E7EB" : "#111827",
@@ -294,11 +278,11 @@ export default function BlogGrid() {
   const standard = filtered.slice(2);
 
   return (
-    <section className="pt-8 pb-12 md:pt-10 md:pb-16 lg:pt-[48px] lg:pb-[80px] px-4 md:px-6 lg:px-8" style={{ background: "#FFFFFF" }}>
+    <section className="pt-[48px] pb-[80px] px-8" style={{ background: "#FFFFFF" }}>
       <div className="max-w-[1280px] mx-auto">
 
         {/* ── Search + Filters — centred, max 720px ─────────────── */}
-        <div className="flex flex-col gap-3 mb-12 max-w-[720px] mx-auto">
+        <div className="flex flex-col gap-5 mb-12 max-w-[720px] mx-auto">
           {/* Search */}
           <div className="relative">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" width="15" height="15" viewBox="0 0 16 16" fill="none">
@@ -316,8 +300,8 @@ export default function BlogGrid() {
             />
           </div>
 
-          {/* Filter pills — centred */}
-          <div className="flex flex-wrap justify-center gap-2">
+          {/* Filter pills — full-width 3-col grid */}
+          <div className="grid grid-cols-3 gap-3">
             <FilterSelect value={timeline} onChange={setTimeline} options={TIMELINE_OPTIONS} />
             <FilterSelect value={topic}    onChange={setTopic}    options={TOPIC_OPTIONS} />
             <FilterSelect value={format}   onChange={setFormat}   options={FORMAT_OPTIONS} />
@@ -341,9 +325,9 @@ export default function BlogGrid() {
               </div>
             )}
 
-            {/* Row 2 — standard cards: 1 col phone, 2 cols iPad, 4 cols desktop */}
+            {/* Row 2 — standard 4-col */}
             {standard.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {standard.map((p) => <StandardCard key={p.slug} post={p} />)}
               </div>
             )}

@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 // basePath is imported for future image assets; unused in this file but kept per project conventions.
 import { basePath } from "@/lib/basePath";
 import IRISChatShowcase from "@/components/sections/IRISChatShowcase";
 import Orb from "@/components/ui/Orb";
+import GlareButton from "@/components/ui/GlareButton";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -330,16 +332,9 @@ const IRIS_STYLES = `
     .zazu-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: 380px; z-index: 1; }
     .zazu-card { position: absolute; width: 260px; }
   }
-  /* Mobile (< 640px) — single column */
-  @media (max-width: 639px) {
+  @media (max-width: 899px) {
     .zazu-scene { display: flex; flex-direction: column; gap: 16px; padding: 8px 0; }
     .zazu-center { position: static; transform: none; width: 100%; text-align: center; padding: 0 0 24px 0; }
-    .zazu-card { position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: none !important; width: 100% !important; opacity: 1 !important; transition: none !important; }
-  }
-  /* iPad (640–899px) — title row + 2-col grid of cards */
-  @media (min-width: 640px) and (max-width: 899px) {
-    .zazu-scene { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 8px 0; }
-    .zazu-center { grid-column: 1 / -1; position: static; transform: none; width: 100%; text-align: center; padding: 0 0 24px 0; }
     .zazu-card { position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: none !important; width: 100% !important; opacity: 1 !important; transition: none !important; }
   }
 
@@ -482,7 +477,7 @@ function ProblemCard({ card }: { card: ProblemCard }) {
       >
         {card.icon}
       </div>
-      <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[17px] leading-[1.5] sm:leading-snug text-[#1b1b1b]">
+      <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[17px] leading-snug text-[#1b1b1b]">
         {card.title}
       </h3>
       <p
@@ -724,7 +719,7 @@ function CapabilitiesScrollSection() {
           <div
             key={cap.num}
             ref={el => { itemRefs.current[i] = el; }}
-            className="py-8 lg:py-12 border-b border-[#f0f0f0] last:border-0 transition-all duration-400"
+            className="py-12 border-b border-[#f0f0f0] last:border-0 transition-all duration-400"
             style={{ opacity: activeIdx === i ? 1 : 0.28 }}
           >
             {/* Colour accent bar */}
@@ -745,7 +740,7 @@ function CapabilitiesScrollSection() {
             </div>
 
             <div className="flex flex-col gap-4 max-w-[520px]">
-              <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[24px] leading-[1.5] sm:leading-snug text-[#1b1b1b]">
+              <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[24px] leading-snug text-[#1b1b1b]">
                 {cap.title}
               </h3>
               <p className="font-[family-name:var(--font-dm-sans)] text-[15px] leading-[1.75] text-[#727272]">
@@ -778,8 +773,8 @@ function CapabilitiesScrollSection() {
               </div>
             </div>
 
-            {/* Mobile visual — shown inline below text on small screens, width-constrained on iPad */}
-            <div className="mt-6 lg:hidden max-w-[420px] mx-auto">
+            {/* Mobile visual — shown inline below text on small screens */}
+            <div className="mt-8 lg:hidden">
               <CapabilityMockup cap={cap} />
             </div>
           </div>
@@ -864,7 +859,7 @@ function CapabilityRow({ cap, index }: { cap: Capability; index: number }) {
           </div>
         </div>
 
-        <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[24px] leading-[1.5] sm:leading-snug text-[#1b1b1b]">
+        <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[24px] leading-snug text-[#1b1b1b]">
           {cap.title}
         </h3>
 
@@ -1026,7 +1021,7 @@ function TimelineCard({ cap }: { cap: Capability }) {
         <div className="h-px flex-1 rounded" style={{ background: cap.color, opacity: 0.18 }} />
       </div>
 
-      <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[17px] leading-[1.5] sm:leading-snug text-[#1b1b1b] mb-3">
+      <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[17px] leading-snug text-[#1b1b1b] mb-3">
         {cap.title}
       </h3>
 
@@ -1219,7 +1214,7 @@ function ProblemsGrid() {
             transitionDelay: "80ms",
           }}
         >
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[34px] md:text-[40px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-[#1b1b1b]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[34px] md:text-[40px] leading-tight tracking-[-0.025em] text-[#1b1b1b]">
             Why Traditional EHS Systems{" "}
             <span style={{ color: "#155eef" }}>Fall Short</span>
           </h2>
@@ -1277,247 +1272,360 @@ export default function IrisPage() {
   }, []);
 
   // Per-section scroll-reveal refs
-  const introRef       = useScrollReveal();
+  const introRef        = useScrollReveal();
+  const problemsHeadRef = useScrollReveal();
+  const problemsGridRef = useScrollReveal();
 
   const capHeaderRef   = useScrollReveal();
   const capGridRef     = useScrollReveal();
   const ctaRef         = useScrollReveal();
 
-  // AI card: fires once when the card container enters the viewport
-  const cardRef  = useRef<HTMLDivElement>(null);
-  const [cardActive, setCardActive] = useState(false);
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setCardActive(true); obs.disconnect(); } },
-      { threshold: 0.15 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
 
   return (
     <>
       {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* SECTION 1 — HERO                                                    */}
+      {/* SECTION 1 — HERO (light mode)                                       */}
       {/* ─────────────────────────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden flex items-center justify-center px-4 sm:px-6 pt-[90px] sm:pt-[120px] md:pt-[148px] pb-[60px] sm:pb-[80px] md:pb-[100px]"
-        style={{ minHeight: "60vh", background: "#ffffff" }}
+        className="relative overflow-hidden px-4 sm:px-6"
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(to bottom, white 0%, white 85%, rgba(248,250,252,0.5) 100%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: "clamp(100px, 15vh, 160px)",
+          paddingBottom: "clamp(48px, 8vh, 100px)",
+        }}
       >
-        {/* Orb — centred behind text, contained within section */}
-        <div
-          className="absolute"
-          style={{
-            zIndex: 0,
-            opacity: 0.55,
-            width: "605px",
-            height: "605px",
-            top: "calc(50% + 30px)",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Orb
-            hoverIntensity={0.25}
-            rotateOnHover={false}
-            hue={45}
-            forceHoverState={false}
-            backgroundColor="#ffffff"
+        {/* Animated grid background */}
+        <style>{`
+          .iris-hero-grid-container {
+            background-image:
+              linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+          }
+          @keyframes irisHeroGridBoxFill { 0%,100%{opacity:0} 50%{opacity:0.6} }
+          .iris-hero-grid-box { position:absolute; width:48px; height:48px; }
+          @keyframes irisCardFromLeft {
+            from { opacity: 0; transform: translateX(-36px) translateY(8px); }
+            to   { opacity: 1; transform: translateX(0) translateY(0); }
+          }
+          @keyframes irisCardFromRight {
+            from { opacity: 0; transform: translateX(36px) translateY(8px); }
+            to   { opacity: 1; transform: translateX(0) translateY(0); }
+          }
+          @keyframes irisCardFromBottom {
+            from { opacity: 0; transform: translateY(28px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+          }
+          .iris-card-left {
+            opacity: 0;
+            animation: irisCardFromLeft 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards;
+          }
+          .iris-card-right {
+            opacity: 0;
+            animation: irisCardFromRight 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards;
+          }
+          .iris-card-bottom {
+            opacity: 0;
+            animation: irisCardFromBottom 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+          }
+          .iris-hero-card {
+            transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.22s ease;
+            cursor: default;
+          }
+          .iris-hero-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 10px 32px rgba(0,0,0,0.10) !important;
+          }
+        `}</style>
+        <div className="absolute inset-0 overflow-hidden iris-hero-grid-container pointer-events-none">
+          {Array.from({ length: 120 }, (_, i) => {
+            const shouldAnimate = (i * 7 + i * 3) % 17 === 0;
+            const colorVariant = i % 4;
+            const colors = ["#EFF6FF", "#DBEAFE", "#BFDBFE", "#93C5FD"];
+            const animationDelay = (i * 0.3) % 12;
+            const animationDuration = 4 + ((i * 2) % 6);
+            const row = Math.floor(i / 20);
+            const col = i % 20;
+            return shouldAnimate ? (
+              <div
+                key={`iris-hero-grid-box-${i}`}
+                className="iris-hero-grid-box"
+                style={{
+                  left: `${col * 50 + 1}px`,
+                  top: `${row * 50 + 1}px`,
+                  backgroundColor: colors[colorVariant],
+                  animation: `irisHeroGridBoxFill ${animationDuration}s ease-in-out infinite`,
+                  animationDelay: `${animationDelay}s`,
+                }}
+              />
+            ) : null;
+          })}
+          {/* Bottom fade overlay */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+            style={{
+              background: "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.8) 70%, white 100%)",
+            }}
           />
         </div>
 
-        {/* Hero content */}
-        <div className="relative z-10 max-w-[680px] w-full mx-auto text-center flex flex-col items-center gap-4" style={{ pointerEvents: "none" }}>
-          <h1
-            className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[42px] md:text-[54px] leading-[1.5] sm:leading-[1.08] tracking-[-0.03em] text-[#1b1b1b] animate-hero-rise"
-            style={{ animationDelay: "0ms" }}
-          >
+        {/* ── Title ── */}
+        <div className="relative z-10 text-center mb-2 animate-hero-rise" style={{ animationDelay:"60ms" }}>
+          <h1 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] sm:text-[44px] md:text-[56px] leading-[1.06] tracking-[-0.03em] text-[#0a0f1e]">
             Meet IRIS
             <br />
-            EHSWatch&apos;s Intelligent Risk
-            <br />
-            &amp; Insight System
+            <span style={{ color:"#1d4ed8" }}>Intelligent Risk &amp; Insight System</span>
           </h1>
-
-          <p
-            className="font-[family-name:var(--font-dm-sans)] text-[14px] sm:text-[15px] leading-[1.7] text-[#727272] animate-hero-rise"
-            style={{ animationDelay: "120ms" }}
-          >
-            Six AI capabilities embedded across your EHSQ workflows.
-            <br />
-            Surface risks earlier. Close actions faster. Generate insights in seconds, not days.
-          </p>
-
-          <div
-            className="flex flex-col sm:flex-row items-center gap-3 mt-1 animate-hero-rise"
-            style={{ animationDelay: "200ms", pointerEvents: "auto" }}
-          >
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 px-6 py-[9px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[13.5px] text-white hover:opacity-90 transition-all duration-200 hover:shadow-lg"
-              style={{
-                backgroundImage:
-                  "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
-                boxShadow: "0 4px 24px rgba(249,115,22,0.35)",
-              }}
-            >
-              Book AI Demo
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 px-6 py-[9px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[13.5px] transition-all duration-200 hover:border-[#155eef] hover:text-[#155eef]"
-              style={{ border: "1.5px solid #d1d5db", color: "#374151" }}
-            >
-              See Pricing
-            </a>
-          </div>
         </div>
+
+        {/* ── CTAs ── */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3 mt-2 mb-8 animate-hero-rise" style={{ animationDelay: "200ms" }}>
+          <GlareButton
+            href="#"
+            className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-white duration-200 hover:shadow-lg"
+            style={{
+              backgroundImage: "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
+              boxShadow: "0 4px 20px rgba(249,115,22,0.35)",
+            }}
+          >
+            Book AI Demo
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </GlareButton>
+          <GlareButton
+            href="#"
+            fillColor="#FFA660"
+            hoverTextColor="#ffffff"
+            className="px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] border"
+            style={{ borderColor: "#d1d5db", color: "#374151" }}
+          >
+            See Pricing
+          </GlareButton>
+        </div>
+
+        {/* ── Cards + IRIS logo ── */}
+        <div className="relative z-10 w-full max-w-[1100px]">
+
+          {/* Top row: left 2 cards | IRIS circle | right 2 cards */}
+          <div className="flex items-center justify-center gap-5 lg:gap-8">
+
+            {/* Left column: 2 cards */}
+            <div className="hidden lg:flex flex-col gap-4 w-[220px] shrink-0">
+              {/* Card 1: Hazard Intelligence */}
+              <div className="iris-hero-card iris-card-left" style={{ background:"white", border:"1px solid #e8edf5", borderRadius:14, padding:"14px 16px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", animationDelay:"350ms" }}>
+                <p style={{ fontSize:10, fontWeight:700, color:"#374151", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:10, fontFamily:"var(--font-dm-sans,sans-serif)" }}>Hazard Intelligence</p>
+                {[["Chemical exposure","#ef4444",78],["Height work","#f97316",54],["Electrical","#eab308",35]].map(([l,c,w]) => (
+                  <div key={String(l)} style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+                    <span style={{ fontSize:10, color:"#6b7280", width:88, flexShrink:0, fontFamily:"var(--font-dm-sans,sans-serif)" }}>{l}</span>
+                    <div style={{ flex:1, height:4, background:"#f3f4f6", borderRadius:2, overflow:"hidden" }}>
+                      <div style={{ height:"100%", width:`${w}%`, background:String(c), borderRadius:2 }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Card 2: Predictive Analytics */}
+              <div className="iris-hero-card iris-card-left" style={{ background:"white", border:"1px solid #e8edf5", borderRadius:14, padding:"14px 16px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", animationDelay:"480ms" }}>
+                <p style={{ fontSize:10, fontWeight:700, color:"#374151", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:10, fontFamily:"var(--font-dm-sans,sans-serif)" }}>Predictive Analytics</p>
+                <div style={{ display:"flex", alignItems:"flex-end", gap:3, height:40 }}>
+                  {[14,22,18,30,26,38,34,44].map((h,i) => (
+                    <div key={i} style={{ flex:1, height:`${h}px`, background:`rgba(59,130,246,${0.25+i*0.09})`, borderRadius:"3px 3px 0 0" }} />
+                  ))}
+                </div>
+                <p style={{ fontSize:10, color:"#3b82f6", marginTop:6, fontFamily:"var(--font-dm-sans,sans-serif)", fontWeight:600 }}>↓ 23% risk reduction</p>
+              </div>
+            </div>
+
+            {/* Center: Orb + IRIS logo */}
+            <div className="relative shrink-0" style={{ width: 280, height: 280 }}>
+              <Orb
+                hue={30}
+                hoverIntensity={0.5}
+                rotateOnHover={false}
+                forceHoverState={false}
+                backgroundColor="#ffffff"
+              />
+              {/* IRIS logo centred over orb */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  pointerEvents: "none",
+                }}
+              >
+                <Image
+                  src={`${basePath}/images/iris-logo.png`}
+                  alt="IRIS"
+                  width={90}
+                  height={90}
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
+            </div>
+
+            {/* Right column: 2 cards */}
+            <div className="hidden lg:flex flex-col gap-4 w-[220px] shrink-0">
+              {/* Card 3: Workflow Acceleration */}
+              <div className="iris-hero-card iris-card-right" style={{ background:"white", border:"1px solid #e8edf5", borderRadius:14, padding:"14px 16px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", animationDelay:"350ms" }}>
+                <p style={{ fontSize:10, fontWeight:700, color:"#374151", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:10, fontFamily:"var(--font-dm-sans,sans-serif)" }}>Workflow Acceleration</p>
+                {[["Investigation","92%","#f59e0b"],["Actions closed","78%","#f97316"],["Reports filed","100%","#10b981"]].map(([l,v,c]) => (
+                  <div key={String(l)} style={{ marginBottom:7 }}>
+                    <div style={{ display:"flex", justifyContent:"space-between", marginBottom:3 }}>
+                      <span style={{ fontSize:10, color:"#6b7280", fontFamily:"var(--font-dm-sans,sans-serif)" }}>{l}</span>
+                      <span style={{ fontSize:10, fontWeight:700, color:String(c), fontFamily:"var(--font-dm-sans,sans-serif)" }}>{v}</span>
+                    </div>
+                    <div style={{ height:4, background:"#f3f4f6", borderRadius:2, overflow:"hidden" }}>
+                      <div style={{ height:"100%", width:v, background:String(c), borderRadius:2 }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Card 4: Natural Language Query */}
+              <div className="iris-hero-card iris-card-right" style={{ background:"white", border:"1px solid #e8edf5", borderRadius:14, padding:"14px 16px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", animationDelay:"480ms" }}>
+                <p style={{ fontSize:10, fontWeight:700, color:"#374151", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:10, fontFamily:"var(--font-dm-sans,sans-serif)" }}>Natural Language Query</p>
+                <div style={{ background:"#f3f4f6", borderRadius:8, padding:"7px 10px", marginBottom:7 }}>
+                  <p style={{ fontSize:10, color:"#374151", fontFamily:"var(--font-dm-sans,sans-serif)", fontStyle:"italic" }}>&ldquo;Top risks this quarter?&rdquo;</p>
+                </div>
+                <div style={{ background:"#eff6ff", borderRadius:8, padding:"7px 10px" }}>
+                  <p style={{ fontSize:10, color:"#1d4ed8", fontFamily:"var(--font-dm-sans,sans-serif)", fontWeight:500 }}>3 critical trends detected in Site A ↗</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom row: 2 cards centred below the circle */}
+          <div className="hidden lg:flex justify-center gap-4 mt-4">
+            {/* Card 5: Smart Recommendations */}
+            <div className="iris-hero-card iris-card-bottom w-[220px]" style={{ background:"white", border:"1px solid #e8edf5", borderRadius:14, padding:"14px 16px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", animationDelay:"560ms" }}>
+              <p style={{ fontSize:10, fontWeight:700, color:"#374151", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:10, fontFamily:"var(--font-dm-sans,sans-serif)" }}>Smart Recommendations</p>
+              {["Deploy safety barriers","Retrain 3 operators","Update risk register"].map((t,i) => (
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:7, marginBottom:6 }}>
+                  <div style={{ width:15, height:15, borderRadius:4, background:i===0?"#10b981":"transparent", border:i===0?"none":"1.5px solid #d1d5db", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                    {i===0 && <svg width="9" height="9" viewBox="0 0 9 9"><path d="M1.5 4.5l2 2 4-3.5" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  </div>
+                  <span style={{ fontSize:10, color:i===0?"#9ca3af":"#374151", fontFamily:"var(--font-dm-sans,sans-serif)", textDecoration:i===0?"line-through":"none" }}>{t}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Card 6: Intelligent Data Synthesis */}
+            <div className="iris-hero-card iris-card-bottom w-[220px]" style={{ background:"white", border:"1px solid #e8edf5", borderRadius:14, padding:"14px 16px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", animationDelay:"620ms" }}>
+              <p style={{ fontSize:10, fontWeight:700, color:"#374151", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:10, fontFamily:"var(--font-dm-sans,sans-serif)" }}>Intelligent Data Synthesis</p>
+              <div style={{ display:"flex", gap:12, marginBottom:8 }}>
+                {[["Incidents","247","#6366f1"],["Actions","89","#8b5cf6"],["Sites","14","#a78bfa"]].map(([l,v,c]) => (
+                  <div key={String(l)} style={{ flex:1, textAlign:"center" }}>
+                    <p style={{ fontSize:20, fontWeight:800, color:String(c), fontFamily:"var(--font-gothic-a1,sans-serif)", lineHeight:1 }}>{v}</p>
+                    <p style={{ fontSize:9, color:"#6b7280", fontFamily:"var(--font-dm-sans,sans-serif)", marginTop:3, textTransform:"uppercase", letterSpacing:"0.06em" }}>{l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </section>
 
       {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* SECTION 2 — ABOUT IRIS (3-column: SVG cards | text | SVG cards)    */}
+      {/* SECTION 2 — ABOUT IRIS (simple text)                               */}
       {/* ─────────────────────────────────────────────────────────────────── */}
       <section
         ref={introRef}
-        className="py-[40px] md:py-[60px] lg:py-[100px] px-4 md:px-6 bg-white overflow-hidden"
+        className="py-[70px] md:py-[90px] px-4 md:px-6"
+        style={{ background: "#F8FBFF" }}
       >
-        <div className="max-w-[1240px] mx-auto">
+        <div className="max-w-[760px] mx-auto text-center flex flex-col gap-5 iris-reveal-target">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[38px] md:text-[46px] leading-tight tracking-[-0.025em] text-[#1b1b1b]">
+            About <span style={{ color: "#155eef" }}>IRIS</span>
+          </h2>
 
-          {/* ── iPad / mobile: text first, then 2-col grid of all 6 cards ── */}
-          <div className="lg:hidden flex flex-col gap-10">
-            {/* Text first */}
-            <div className="flex flex-col gap-4 text-center iris-reveal-target max-w-[640px] mx-auto">
-              <p
-                className="font-[family-name:var(--font-gothic-a1)] font-bold text-[13px] uppercase tracking-[0.18em]"
-                style={{ color: "#155eef" }}
-              >
-                About IRIS
-              </p>
-              <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[36px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-[#1b1b1b]">
-                About <span style={{ color: "#155eef" }}>IRIS</span>
-              </h2>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[14px] sm:text-[15px] leading-[1.75] text-[#1b1b1b]">
-                IRIS <span style={{ color: "#727272" }}>(Intelligent Risk &amp; Insight System)</span>{" "}
-                is EHSWatch&apos;s embedded AI layer — built into every workflow your safety team
-                already uses. Six capabilities work together to surface hazards earlier, accelerate
-                incident closure and turn raw safety data into actionable intelligence that used to
-                take days to compile manually.
-              </p>
-              <div className="w-12 border-t border-[#d1d5db] mx-auto" />
-              <p className="font-[family-name:var(--font-dm-sans)] text-[14px] sm:text-[15px] leading-[1.7] italic text-[#727272]">
-                &ldquo;IRIS doesn&apos;t replace your safety team&apos;s judgment — it sharpens it.&rdquo;
-              </p>
-            </div>
+          <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#1b1b1b] text-pretty">
+            IRIS <span style={{ color: "#727272" }}>(Intelligent Risk &amp; Insight System)</span>{" "}
+            is EHSWatch&apos;s embedded AI layer — built into every workflow your safety team
+            already uses. Six capabilities work together to surface hazards earlier, accelerate
+            incident closure and turn raw safety data into actionable intelligence that used to
+            take days to compile manually.
+          </p>
 
-            {/* 6 cards — 1 col on phone, 2 cols on iPad */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-[440px] sm:max-w-none mx-auto iris-reveal-target">
-              {[
-                { file: "hazard-intelligence.svg",        label: "1. Hazard Intelligence" },
-                { file: "predictive-risk-analytics.svg",  label: "2. Predictive Risk Analytics" },
-                { file: "smart-recommendations.svg",      label: "3. Smart Recommendations" },
-                { file: "workflow-acceleration.svg",      label: "4. Workflow Acceleration" },
-                { file: "intelligent-data-synthesis.svg", label: "5. Intelligent Data Synthesis" },
-                { file: "natural-language-insights.svg",  label: "6. Natural Language Insights" },
-              ].map(({ file, label }) => (
-                <div
-                  key={label}
-                  className="rounded-2xl overflow-hidden bg-white border border-[#e8f0fe] shadow-[0_2px_16px_rgba(21,94,239,0.06),_0_1px_4px_rgba(0,0,0,0.03)]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`${basePath}/images/iris-about/${file}`}
-                    alt={label}
-                    className="w-full h-auto block"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <div className="w-12 border-t border-[#d1d5db] mx-auto" />
 
-          {/* ── Desktop: 3-column layout (left cards | text | right cards) ── */}
-          <div className="hidden lg:grid lg:grid-cols-[1fr_360px_1fr] gap-10 items-center">
-
-            {/* Left column: 3 SVG capability cards */}
-            <div className="flex flex-col gap-4 iris-reveal-target">
-              {[
-                { file: "hazard-intelligence.svg",       label: "1. Hazard Intelligence" },
-                { file: "predictive-risk-analytics.svg", label: "2. Predictive Risk Analytics" },
-                { file: "smart-recommendations.svg",     label: "3. Smart Recommendations" },
-              ].map(({ file, label }) => (
-                <div
-                  key={label}
-                  className="rounded-2xl overflow-hidden bg-white border border-[#e8f0fe] shadow-[0_2px_16px_rgba(21,94,239,0.06),_0_1px_4px_rgba(0,0,0,0.03)]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`${basePath}/images/iris-about/${file}`}
-                    alt={label}
-                    className="w-full h-auto block"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Center: text */}
-            <div className="flex flex-col gap-5 text-center iris-reveal-target" style={{ transitionDelay: "80ms" }}>
-              <p
-                className="font-[family-name:var(--font-gothic-a1)] font-bold text-[13px] uppercase tracking-[0.18em]"
-                style={{ color: "#155eef" }}
-              >
-                About IRIS
-              </p>
-              <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[34px] sm:text-[42px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-[#1b1b1b]">
-                About <span style={{ color: "#155eef" }}>IRIS</span>
-              </h2>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[15px] leading-[1.8] text-[#1b1b1b]">
-                IRIS <span style={{ color: "#727272" }}>(Intelligent Risk &amp; Insight System)</span>{" "}
-                is EHSWatch&apos;s embedded AI layer — built into every workflow your safety team
-                already uses. Six capabilities work together to surface hazards earlier, accelerate
-                incident closure and turn raw safety data into actionable intelligence that used to
-                take days to compile manually.
-              </p>
-              <div className="w-12 border-t border-[#d1d5db] mx-auto" />
-              <p className="font-[family-name:var(--font-dm-sans)] text-[15px] leading-[1.75] italic text-[#727272]">
-                &ldquo;IRIS doesn&apos;t replace your safety team&apos;s judgment — it sharpens it.&rdquo;
-              </p>
-            </div>
-
-            {/* Right column: 3 SVG capability cards */}
-            <div className="flex flex-col gap-4 iris-reveal-target" style={{ transitionDelay: "160ms" }}>
-              {[
-                { file: "workflow-acceleration.svg",      label: "4. Workflow Acceleration" },
-                { file: "intelligent-data-synthesis.svg", label: "5. Intelligent Data Synthesis" },
-                { file: "natural-language-insights.svg",  label: "6. Natural Language Insights" },
-              ].map(({ file, label }) => (
-                <div
-                  key={label}
-                  className="rounded-2xl overflow-hidden bg-white border border-[#e8f0fe] shadow-[0_2px_16px_rgba(21,94,239,0.06),_0_1px_4px_rgba(0,0,0,0.03)]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`${basePath}/images/iris-about/${file}`}
-                    alt={label}
-                    className="w-full h-auto block"
-                  />
-                </div>
-              ))}
-            </div>
-
-          </div>
+          <p className="font-[family-name:var(--font-dm-sans)] text-[16px] leading-[1.75] italic text-[#727272]">
+            &ldquo;IRIS doesn&apos;t replace your safety team&apos;s judgment — it sharpens it.&rdquo;
+          </p>
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* SECTION 3 — PROBLEMS (dark navy)                                    */}
+      {/* SECTION 3 — PROBLEMS (modules-style grid)                           */}
       {/* ─────────────────────────────────────────────────────────────────── */}
-      <section className="py-[40px] md:py-[60px] lg:py-[110px] px-6 bg-white">
-        <div className="max-w-[1160px] mx-auto overflow-visible">
-          <ProblemsGrid />
+      <section className="py-[70px] md:py-[90px] px-4 md:px-6 bg-white">
+        <style>{`
+          @media (min-width: 640px) and (max-width: 1023px) {
+            .problems-row > *:nth-child(2n) { border-right: none !important; }
+          }
+        `}</style>
+        <div className="max-w-[1160px] mx-auto">
+          {/* Heading */}
+          <div className="text-center mb-10 md:mb-14" ref={problemsHeadRef}>
+            <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[34px] md:text-[40px] leading-tight tracking-[-0.025em] text-[#1b1b1b] iris-reveal-target">
+              Why Traditional EHS Systems{" "}
+              <span style={{ color: "#155eef" }}>Fall Short</span>
+            </h2>
+            <p className="font-[family-name:var(--font-dm-sans)] text-[14px] sm:text-[15px] leading-[1.75] text-[#727272] mt-3 max-w-[520px] mx-auto text-pretty iris-reveal-target" style={{ transitionDelay: "80ms" }}>
+              Human attention, manual processes and scattered data create dangerous gaps.
+            </p>
+          </div>
+
+          {/* Grid — no outer border, internal dividers only (matches modules style) */}
+          <div ref={problemsGridRef}>
+            {[0, 1].map((rowIdx) => {
+              const row = PROBLEMS.slice(rowIdx * 3, rowIdx * 3 + 3);
+              const isLastRow = rowIdx === 1;
+              return (
+                <div key={rowIdx} className="problems-row grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 iris-stagger iris-reveal-target" style={{ transitionDelay: `${rowIdx * 120}ms` }}>
+                  {row.map((p, colIdx) => (
+                    <div
+                      key={p.title}
+                      className="flex flex-col gap-3 px-5 sm:px-7 py-6 sm:py-8"
+                      style={{
+                        borderBottom: !isLastRow ? "1px solid #e5e7eb" : "none",
+                        borderRight: colIdx < 2 ? "1px solid #e5e7eb" : "none",
+                      }}
+                    >
+                      {/* Icon */}
+                      <div
+                        className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: p.color + "14", color: p.color }}
+                      >
+                        {p.icon}
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[15px] text-[#0a0f1e] leading-snug">
+                        {p.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="font-[family-name:var(--font-dm-sans)] text-[13px] text-[#6b7280] leading-[1.65] text-pretty">
+                        {p.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -1531,38 +1639,40 @@ export default function IrisPage() {
       {/* ─────────────────────────────────────────────────────────────────── */}
       <section
         ref={ctaRef}
-        className="relative py-10 md:py-[50px] px-4 md:px-6 overflow-hidden iris-reveal-target"
+        className="relative py-12 md:py-[61px] px-4 md:px-6 overflow-hidden iris-reveal-target"
         style={{
           background: "#f1f7ff",
         }}
       >
         <div className="max-w-[800px] mx-auto flex flex-col gap-3 md:gap-[16px] items-center text-center">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[44px] leading-[1.5] sm:leading-tight text-[#0a0f1e] whitespace-nowrap">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[44px] leading-tight text-[#0a0f1e] whitespace-nowrap">
             Put IRIS to work on your safety data
           </h2>
 
-          <p className="font-[family-name:var(--font-dm-sans)] text-[14px] md:text-[17px] leading-relaxed text-[#6b7280] max-w-[500px]">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[14px] md:text-[15px] leading-relaxed text-[#6b7280] max-w-[500px] whitespace-nowrap">
             See what you&apos;ve been missing. Book a demo and explore every AI capability live.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-[16px] items-center justify-center pt-4 md:pt-[24px]">
-            <a
+            <GlareButton
               href="#"
-              className="flex items-center justify-center px-6 md:px-[26px] py-3 md:py-[10px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-white whitespace-nowrap hover:opacity-90 transition-opacity"
+              className="flex items-center justify-center px-6 md:px-[26px] py-3 md:py-[10px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-white whitespace-nowrap"
               style={{
                 backgroundImage:
                   "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
               }}
             >
               Book Your Free Demo
-            </a>
-            <a
+            </GlareButton>
+            <GlareButton
+              fillColor="#FFA660"
+              hoverTextColor="#ffffff"
               href="#"
-              className="flex items-center justify-center px-7 md:px-[31.5px] py-3 md:py-[15.5px] rounded-full border font-[family-name:var(--font-dm-sans)] text-[14px] text-[#ff6d00] hover:bg-orange-50 transition-colors"
+              className="flex items-center justify-center px-7 md:px-[31.5px] py-3 md:py-[10px] rounded-full border font-[family-name:var(--font-dm-sans)] text-[14px] text-[#ff6d00]"
               style={{ background: "rgba(255,120,44,0.1)", borderColor: "rgba(255,120,44,0.2)" }}
             >
               View Pricing
-            </a>
+            </GlareButton>
           </div>
         </div>
       </section>

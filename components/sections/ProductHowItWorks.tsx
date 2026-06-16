@@ -71,7 +71,7 @@ function Visual1({ active }: { active: boolean }) {
         <div style={{ display: "flex", alignItems: "center", padding: "13px 22px 11px", borderBottom: "1px solid #f1f5f9" }}>
           <span style={{ flex: 1, fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Checklist Item</span>
           <span style={{ width: 86, fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Status</span>
-          <span className="hidden sm:inline" style={{ width: 118, fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Remarks</span>
+          <span style={{ width: 118, fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Remarks</span>
         </div>
 
         {/* Rows — use actual Figma pill SVGs + remarks field */}
@@ -110,17 +110,15 @@ function Visual1({ active }: { active: boolean }) {
                 </div>
               )}
             </div>
-            {/* Remarks input mockup — hidden on phone to give Item column more room */}
-            <div
-              className="hidden sm:flex items-center"
-              style={{
-                width: 118, height: 30,
-                background: "#f8fafc",
-                border: "1px solid #e8edf5",
-                borderRadius: 7,
-                paddingLeft: 10,
-              }}
-            >
+            {/* Remarks input mockup */}
+            <div style={{
+              width: 118, height: 30,
+              background: "#f8fafc",
+              border: "1px solid #e8edf5",
+              borderRadius: 7,
+              display: "flex", alignItems: "center",
+              paddingLeft: 10,
+            }}>
               <span style={{ fontSize: 11.5, color: "#64748b" }}>{row.remark}</span>
             </div>
           </div>
@@ -136,17 +134,12 @@ function Visual1({ active }: { active: boolean }) {
    ══════════════════════════════════════════════════════════════════ */
 function Visual2({ active }: { active: boolean }) {
   return (
-    <div className="w-full h-full flex items-center justify-center py-2">
+    <div className="w-full h-full flex items-center justify-center">
       <div
         style={{
           opacity: active ? 1 : 0,
           transform: active ? "translateY(0)" : "translateY(28px)",
           transition: "opacity 0.65s cubic-bezier(0.34,1.4,0.64,1), transform 0.65s cubic-bezier(0.34,1.4,0.64,1)",
-          height: "100%",
-          maxHeight: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           lineHeight: 0,
         }}
       >
@@ -155,11 +148,9 @@ function Visual2({ active }: { active: boolean }) {
           src={`${S2}/Mobile%20App.svg`}
           alt="EHSWatch field capture"
           style={{
-            maxHeight: "100%",
-            maxWidth: "100%",
+            height: "clamp(330px, 55vw, 473px)",
             width: "auto",
-            height: "auto",
-            objectFit: "contain",
+            maxWidth: 242,
             display: "block",
           }}
         />
@@ -535,69 +526,50 @@ const INSIGHT_STEPS = [
 
 function Visual5({ active }: { active: boolean }) {
   return (
-    <div className="w-full h-full flex items-center justify-center px-2 py-2 overflow-hidden">
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 440,
-          maxHeight: "100%",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+    <div className="w-full h-full flex items-center justify-center px-2 overflow-hidden">
+      <div style={{ width: "100%", maxWidth: 440, display: "flex", flexDirection: "column" }}>
         {INSIGHT_STEPS.map((step, i) => (
           <React.Fragment key={i}>
             <div
               style={{
                 background: "white",
-                borderRadius: 14,
+                borderRadius: 16,
                 border: "1px solid #e2e8f0",
                 boxShadow: "0 4px 14px rgba(15,26,51,0.07)",
                 display: "flex",
                 alignItems: "center",
-                gap: 12,
-                padding: "10px 14px",
-                flexShrink: 0,
+                gap: 15,
+                padding: "14px 18px",
                 opacity: active ? 1 : 0,
                 transform: active ? "translateY(0)" : "translateY(22px)",
                 transition: `opacity 0.5s cubic-bezier(0.34,1.1,0.64,1) ${0.08 + i * 0.12}s, transform 0.5s cubic-bezier(0.34,1.1,0.64,1) ${0.08 + i * 0.12}s`,
               }}
             >
               {/* Icon box with actual Figma SVG */}
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <div style={{ width: 54, height: 54, borderRadius: 14, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={step.img} alt={step.title} style={{ width: 26, height: 26, objectFit: "contain" }} />
+                <img src={step.img} alt={step.title} style={{ width: 32, height: 32, objectFit: "contain" }} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
-                  <span style={{ fontSize: 10.5, fontWeight: 700, color: "#155eef" }}>0{i + 1}</span>
-                  <p style={{ fontSize: 13.5, fontWeight: 700, color: "#0f172a", margin: 0 }}>{step.title}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: "#155eef" }}>0{i + 1}</span>
+                  <p style={{ fontSize: 14.5, fontWeight: 700, color: "#0f172a", margin: 0 }}>{step.title}</p>
                 </div>
-                <p style={{ fontSize: 11.5, color: "#64748b", margin: 0, lineHeight: 1.5 }}>{step.desc}</p>
+                <p style={{ fontSize: 12, color: "#64748b", margin: 0, lineHeight: 1.55 }}>{step.desc}</p>
               </div>
             </div>
 
-            {/* Animated connector line — fixed compact height */}
+            {/* Animated connector line */}
             {i < INSIGHT_STEPS.length - 1 && (
-              <div
-                style={{
-                  paddingLeft: 40,
-                  height: 24,
-                  flexShrink: 0,
-                  display: "flex",
-                  alignItems: "stretch",
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                }}
-              >
+              <div style={{ paddingLeft: 44, height: 20, display: "flex", alignItems: "center" }}>
                 <div
                   style={{
                     width: 2, borderRadius: 2,
-                    height: active ? "100%" : 0,
+                    height: active ? 20 : 0,
                     background: "repeating-linear-gradient(to bottom, #93c5fd 0, #93c5fd 4px, transparent 4px, transparent 9px)",
-                    backgroundSize: "2px 9px",
+                    backgroundSize: "2px 18px",
                     opacity: active ? 0.8 : 0,
-                    transition: `height 0.5s ease ${0.3 + i * 0.2}s, opacity 0.3s ease ${0.3 + i * 0.2}s`,
+                    transition: `height 0.4s ease ${0.3 + i * 0.2}s, opacity 0.3s ease ${0.3 + i * 0.2}s`,
                   }}
                 />
               </div>
@@ -658,14 +630,15 @@ export default function ProductHowItWorks() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#f1f7ff] h-[300vh] lg:h-[500vh]"
+      className="bg-[#f1f7ff]"
+      style={{ height: `${STEPS.length * 100}vh` }}
     >
-      {/* Sticky viewport — full screen so section bg never bleeds below cards */}
-      <div className="sticky top-0 overflow-hidden flex flex-col h-screen">
+      {/* Sticky viewport — one screen tall */}
+      <div className="sticky top-0 overflow-hidden flex flex-col" style={{ height: "100vh" }}>
 
         {/* ── Heading ── */}
-        <div className="flex-none text-center px-6 pt-[7vh] lg:pt-[11vh] pb-[1vh]">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-[1.5] sm:leading-tight text-[#1b1b1b] tracking-[-0.025em]">
+        <div className="flex-none text-center px-6 pt-[11vh] pb-[1vh]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-tight text-[#1b1b1b] tracking-[-0.025em]">
             How <span className="text-[#155eef]">EHSWatch</span> Works
           </h2>
           <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[14px] md:text-[16px] text-[#4b5563] leading-[1.7] mx-auto max-w-[700px]">
@@ -674,11 +647,11 @@ export default function ProductHowItWorks() {
         </div>
 
         {/* ── Main row ── */}
-        <div className="flex-1 flex flex-col lg:flex-row items-stretch lg:items-center justify-center lg:justify-start gap-5 lg:gap-12 max-w-[1200px] mx-auto w-full px-6 md:px-10 pt-[1vh] pb-[3vh] lg:pb-[5vh]">
+        <div className="flex-1 flex items-center gap-8 md:gap-12 max-w-[1200px] mx-auto w-full px-6 md:px-10 pt-[1vh] pb-[5vh]">
 
           {/* Vertical stepper */}
           <div
-            className="hidden lg:flex flex-col items-center relative shrink-0"
+            className="hidden md:flex flex-col items-center relative shrink-0"
             style={{ gap: `${GAP}px` }}
           >
             <div className="absolute w-[2px] rounded-full bg-[#dde8f8]" style={{ top: CIRCLE / 2, height: TRACK }} />
@@ -711,7 +684,7 @@ export default function ProductHowItWorks() {
 
           {/* Step text */}
           <div
-            className="shrink-0 lg:flex-[0_0_330px] flex flex-col justify-center min-w-0"
+            className="flex-1 md:flex-none md:flex-[0_0_260px] lg:flex-[0_0_330px] md:shrink-0 flex flex-col justify-center min-w-0"
             style={{
               opacity:    textVisible ? 1 : 0,
               transform:  textVisible ? "translateY(0)" : "translateY(10px)",
@@ -724,7 +697,7 @@ export default function ProductHowItWorks() {
               </span>
               <span className="inline-block w-7 h-[1.5px] bg-[#155eef] opacity-35 rounded-full" />
             </div>
-            <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[26px] leading-[1.5] sm:leading-snug mb-4 text-[#0a0f1e]">
+            <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[26px] leading-snug mb-4 text-[#0a0f1e]">
               {STEPS[displayStep].title}
             </h3>
             <p className="font-[family-name:var(--font-dm-sans)] text-[14px] md:text-[15px] leading-[1.82] text-[#4b5563]">
@@ -733,7 +706,7 @@ export default function ProductHowItWorks() {
           </div>
 
           {/* Animated visual panel */}
-          <div className="block w-full lg:flex-1 min-w-0 overflow-hidden h-[50vh] lg:h-[62vh]">
+          <div className="hidden md:block flex-1 min-w-0 overflow-hidden" style={{ height: "62vh" }}>
             <div className="w-full h-full relative overflow-hidden">
               {VISUALS.map((Visual, i) => (
                 <div

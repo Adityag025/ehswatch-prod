@@ -48,7 +48,7 @@ export default function BlogHero() {
 
       <div className="relative z-20 max-w-[700px] w-full mx-auto text-center flex flex-col items-center gap-4">
         <h1
-          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] sm:text-[46px] md:text-[56px] leading-[1.5] sm:leading-[1.06] tracking-[-0.03em] animate-hero-rise"
+          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] sm:text-[46px] md:text-[56px] leading-[1.06] tracking-normal animate-hero-rise"
           style={{ color: "#0a1628", animationDelay: "80ms" }}
         >
           EHSQ Insights,{" "}

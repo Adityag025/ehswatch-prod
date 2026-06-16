@@ -2,11 +2,11 @@ import Reveal from "@/components/ui/Reveal";
 
 export default function ProductOverview() {
   return (
-    <section className="bg-white py-[40px] md:py-[60px] lg:py-[100px]">
-      <div className="max-w-[1160px] mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-8 lg:gap-[96px] items-start">
+    <section className="bg-white py-[60px] md:py-[100px] lg:py-[120px]">
+      <div className="max-w-[1160px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1fr_1.25fr] gap-8 md:gap-[96px] items-start">
         {/* Left sticky label */}
-        <div className="lg:sticky lg:top-[120px]">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[32px] md:text-[40px] leading-[1.5] sm:leading-[1.12] text-[#1b1b1b] tracking-[-0.03em]">
+        <div className="md:sticky md:top-[120px]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[32px] md:text-[40px] leading-[1.12] text-[#1b1b1b] tracking-[-0.03em]">
             The Platform <span className="text-[#155eef]">Built for EHSQ</span>
           </h2>
           <p className="mt-4 font-[family-name:var(--font-dm-sans)] text-[14px] text-[#9ca3af] leading-relaxed">

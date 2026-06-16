@@ -60,7 +60,7 @@ export default function SupportHero() {
       {/* Content */}
       <div className="relative z-20 max-w-[760px] w-full mx-auto text-center flex flex-col items-center gap-4 md:gap-5">
         <h1
-          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[42px] md:text-[52px] leading-[1.5] sm:leading-[1.1] text-[#0f1728] tracking-[-0.02em] animate-hero-rise"
+          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[42px] md:text-[52px] leading-[1.1] text-[#0f1728] tracking-[-0.02em] animate-hero-rise"
           style={{ animationDelay: "80ms" }}
         >
           We're Here When You Need Us —{" "}

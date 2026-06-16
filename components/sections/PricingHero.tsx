@@ -2,27 +2,27 @@
 
 import GlareButton from "@/components/ui/GlareButton";
 
-export default function SolutionsHero() {
+export default function PricingHero() {
   return (
     <section
       className="relative overflow-hidden flex items-center justify-center px-4 sm:px-6 pt-[90px] sm:pt-[120px] md:pt-[148px] pb-[60px] sm:pb-[80px] md:pb-[100px]"
       style={{
-        minHeight: "60vh",
+        minHeight: "52vh",
         background: "linear-gradient(to bottom, white 0%, white 85%, rgba(248,250,252,0.5) 100%)",
       }}
     >
       <style>{`
-        .sol-grid {
+        .pricing-grid-container {
           background-image:
             linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px),
             linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px);
           background-size: 50px 50px;
         }
-        @keyframes solBoxFill {
+        @keyframes pricingGridBoxFill {
           0%, 100% { opacity: 0; }
-          50%       { opacity: 0.55; }
+          50%       { opacity: 0.6; }
         }
-        .sol-box {
+        .pricing-grid-box {
           position: absolute;
           width: 48px;
           height: 48px;
@@ -30,25 +30,25 @@ export default function SolutionsHero() {
       `}</style>
 
       {/* Animated grid */}
-      <div className="absolute inset-0 overflow-hidden sol-grid pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pricing-grid-container pointer-events-none">
         {Array.from({ length: 200 }, (_, i) => {
           const shouldAnimate = (i * 7 + i * 3) % 17 === 0;
           const colorVariant = i % 4;
           const colors = ["#EFF6FF", "#DBEAFE", "#BFDBFE", "#93C5FD"];
-          const delay = (i * 0.3) % 12;
-          const duration = 4 + ((i * 2) % 6);
+          const animationDelay = (i * 0.3) % 12;
+          const animationDuration = 4 + ((i * 2) % 6);
           const row = Math.floor(i / 20);
           const col = i % 20;
           return shouldAnimate ? (
             <div
-              key={i}
-              className="sol-box"
+              key={`pg-${i}`}
+              className="pricing-grid-box"
               style={{
                 left: `${col * 50 + 1}px`,
                 top: `${row * 50 + 1}px`,
                 backgroundColor: colors[colorVariant],
-                animation: `solBoxFill ${duration}s ease-in-out infinite`,
-                animationDelay: `${delay}s`,
+                animation: `pricingGridBoxFill ${animationDuration}s ease-in-out infinite`,
+                animationDelay: `${animationDelay}s`,
               }}
             />
           ) : null;
@@ -60,36 +60,45 @@ export default function SolutionsHero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 max-w-[900px] w-full mx-auto text-center flex flex-col items-center gap-5 md:gap-6">
+      <div className="relative z-20 max-w-[760px] w-full mx-auto text-center flex flex-col items-center gap-5 md:gap-6">
         <h1
-          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[42px] md:text-[54px] leading-[1.08] text-gray-900 tracking-[-0.03em] animate-hero-rise"
+          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[34px] sm:text-[48px] md:text-[56px] leading-[1.08] text-gray-900 tracking-[-0.03em] animate-hero-rise"
           style={{ animationDelay: "80ms" }}
         >
-          Every Industry Has Different Risks.{" "}
-          <span style={{ color: "#1d4ed8" }}>Your EHS Platform Should Know the Difference.</span>
+          Simple, Flexible Pricing
+          <br className="hidden sm:block" />
+          <span style={{ color: "#1d4ed8" }}> for Enterprise EHS</span>
         </h1>
 
-        <div className="flex flex-wrap gap-3 justify-center animate-hero-rise" style={{ animationDelay: "320ms" }}>
+        <p
+          className="font-[family-name:var(--font-dm-sans)] text-[15px] sm:text-[17px] md:text-[18px] text-gray-600 leading-[1.75] max-w-[560px] animate-hero-rise text-pretty"
+          style={{ animationDelay: "180ms" }}
+        >
+          Pay only for the modules you need. No hidden fees, no bundled features you won&apos;t use — just the capabilities that match your EHS requirements.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 animate-hero-rise" style={{ animationDelay: "280ms" }}>
           <GlareButton
-            href="#"
-            className="px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white transition-all duration-200 hover:shadow-lg"
+            href="#calculator"
+            className="inline-flex items-center gap-2 px-8 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white transition-all duration-200 hover:shadow-lg"
             style={{
               backgroundImage: "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
               boxShadow: "0 4px 24px rgba(249,115,22,0.35)",
             }}
           >
-            Book a Demo
+            Build Your Package
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </GlareButton>
           <GlareButton
-            href="#industries"
+            href="#"
             fillColor="#FFA660"
             hoverTextColor="#ffffff"
-            className="px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-[#1b1b1b] border border-[#d1d5db] hover:border-[#9ca3af]"
+            className="px-8 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] border"
+            style={{ borderColor: "#d1d5db", color: "#374151" }}
           >
-            Explore Industries
+            Book a Demo
           </GlareButton>
         </div>
       </div>

@@ -9,22 +9,22 @@ const PAIN_POINTS = [
   {
     iconSrc: ICONS_BASE + "/Data%20scattered%20across%20platforms.svg",
     label: "Data scattered across platforms",
-    bobDuration: "1.6s", amplitude: "10px", bobDelay: "0s",
+    bobDuration: "3.2s", amplitude: "10px", bobDelay: "0s",
   },
   {
     iconSrc: ICONS_BASE + "/Delayed%20reporting%20and%20follow-up.svg",
     label: "Delayed reporting and follow-up",
-    bobDuration: "1.9s", amplitude: "8px", bobDelay: "0.3s",
+    bobDuration: "3.8s", amplitude: "8px", bobDelay: "0.5s",
   },
   {
     iconSrc: ICONS_BASE + "/Limited%20visibility%20into%20problems.svg",
     label: "Limited visibility into problems",
-    bobDuration: "1.7s", amplitude: "12px", bobDelay: "0.15s",
+    bobDuration: "3.5s", amplitude: "12px", bobDelay: "0.3s",
   },
   {
     iconSrc: ICONS_BASE + "/Reactive%20compliance%20checks.svg",
     label: "Reactive compliance checks",
-    bobDuration: "1.5s", amplitude: "6px", bobDelay: "0.6s",
+    bobDuration: "3.0s", amplitude: "6px", bobDelay: "1.0s",
   },
 ];
 
@@ -38,10 +38,10 @@ export default function PainPoints() {
   return (
     <section
       ref={ref}
-      className="relative py-8 md:py-12 px-4 md:px-6 pb-16 md:pb-20 overflow-hidden"
+      className="relative py-4 md:py-8 px-4 md:px-6 pb-10 md:pb-14 overflow-hidden"
       style={{
         background:
-          "radial-gradient(ellipse 45% 55% at center, #e8f1ff 0%, #f1f6ff 30%, #f8faff 60%, #ffffff 100%)",
+          "radial-gradient(ellipse 30% 40% at center, #eef4ff 0%, #f5f8ff 35%, #fafbff 65%, #ffffff 100%)",
       }}
     >
       {/* Bottom fade blend into metrics section */}
@@ -63,7 +63,7 @@ export default function PainPoints() {
             style={{
               width: size,
               height: size,
-              border: `1px solid rgba(21,94,239,${0.044 + (RING_SIZES.length - i) * 0.0132})`,
+              border: `1px solid rgba(21,94,239,${0.05 + i * 0.03})`,
               animation: `ring-pulse ${7 + i * 0.3}s ease-in-out ${i * 0.1}s infinite`,
             }}
           />
@@ -72,17 +72,17 @@ export default function PainPoints() {
 
       <div className="relative max-w-[1100px] mx-auto z-10">
         {/* Desktop layout */}
-        <div className="hidden md:flex flex-col gap-8 lg:gap-[33px] items-center py-8 lg:py-12">
+        <div className="hidden md:flex flex-col gap-5 lg:gap-[24px] items-center py-3 lg:py-6">
           <div className="flex justify-between w-full max-w-[850px]">
             <PainPill {...tl} />
             <PainPill {...tr} />
           </div>
 
           <div className="text-center">
-            <p className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] lg:text-[42px] leading-tight lg:leading-[62px] text-[#1b1b1b] tracking-[-0.5px] lg:tracking-[-0.896px]">
+            <p className="font-[family-name:var(--font-gothic-a1)] font-bold text-[24px] lg:text-[32px] leading-tight lg:leading-[48px] text-[#1b1b1b] tracking-[-0.5px] lg:tracking-[-0.6px]">
               Manual Safety Processes Are
             </p>
-            <p className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] lg:text-[42px] leading-tight lg:leading-[62px] text-[#155eef] tracking-[-0.5px] lg:tracking-[-0.896px]">
+            <p className="font-[family-name:var(--font-gothic-a1)] font-bold text-[24px] lg:text-[32px] leading-tight lg:leading-[48px] text-[#155eef] tracking-[-0.5px] lg:tracking-[-0.6px]">
               Slowing You Down
             </p>
           </div>
@@ -129,15 +129,15 @@ function PainPill({
 }) {
   return (
     <div
-      className="flex items-center gap-2 sm:gap-[12px] pl-2.5 sm:pl-[13px] pr-3 sm:pr-[21px] py-2 sm:py-[13px] rounded-full border border-[rgba(0,96,249,0.18)] bg-[rgba(255,255,255,0.94)] backdrop-blur-[3px] shadow-[0px_3px_8px_rgba(59,130,246,0.1)] shrink-0"
+      className="flex items-center gap-2 sm:gap-[10px] pl-2 sm:pl-[10px] pr-3 sm:pr-[16px] py-1.5 sm:py-[8px] rounded-full border border-[rgba(0,96,249,0.18)] bg-[rgba(255,255,255,0.94)] backdrop-blur-[3px] shadow-[0px_3px_8px_rgba(59,130,246,0.1)] shrink-0"
       style={{
         animation: `chip-sine ${bobDuration} ${bobDelay} ease-in-out infinite alternate`,
         ["--bob-amp" as string]: amplitude,
       }}
     >
-      <div className="w-10 h-10 sm:w-[46px] sm:h-[46px] rounded-full bg-[#155eef] flex items-center justify-center shrink-0">
+      <div className="w-9 h-9 sm:w-[40px] sm:h-[40px] rounded-full bg-[#dbeafe] flex items-center justify-center shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={iconSrc} alt="" className="w-5 h-5 sm:w-[24px] sm:h-[24px]" style={{ filter: "brightness(0) invert(1)" }} />
+        <img src={iconSrc} alt="" className="w-[22px] h-[22px] sm:w-[26px] sm:h-[26px]" style={{ filter: "brightness(0) saturate(100%) invert(20%) sepia(90%) saturate(2000%) hue-rotate(213deg) brightness(85%)" }} />
       </div>
       <span className="font-[family-name:var(--font-dm-sans)] font-medium text-[11px] sm:text-[12px] lg:text-[14px] leading-normal text-[#0a0f1e] tracking-[-0.2px] lg:tracking-[-0.3px] whitespace-nowrap">
         {label}

@@ -204,7 +204,7 @@ export default function AISection() {
           {/* Left: text */}
           <Reveal variant="slide-right" duration={750} className="flex flex-col gap-4 md:gap-[18px] w-full md:max-w-[480px] min-w-0">
             <div className="flex flex-col gap-4 md:gap-[18px]">
-            <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[40px] lg:text-[46px] leading-[1.5] sm:leading-tight md:leading-[1.3] text-[#1b1b1b]">
+            <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[40px] lg:text-[46px] leading-tight md:leading-[1.3] text-[#1b1b1b]">
               AI That Works for<br />
               Your <span className="text-[#155eef]">Safety Team</span>
             </h2>

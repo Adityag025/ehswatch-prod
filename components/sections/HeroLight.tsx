@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
 import HeroDashboard from "@/components/sections/HeroDashboard";
+import GlareButton from "@/components/ui/GlareButton";
 
 export default function HeroLight() {
-  const bookBtnRef = useRef<HTMLAnchorElement>(null);
-
   return (
     <section
       className="relative w-full pb-[60px] sm:pb-[80px] md:pb-[100px] overflow-hidden"
@@ -106,10 +104,9 @@ export default function HeroLight() {
           style={{ animationDelay: "300ms" }}
         >
           {/* Book a Demo */}
-          <a
-            ref={bookBtnRef}
+          <GlareButton
             href="#"
-            className="inline-flex items-center gap-2 px-8 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white hover:opacity-90 transition-all duration-200 hover:shadow-lg"
+            className="px-8 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white transition-all duration-200 hover:shadow-lg"
             style={{
               backgroundImage:
                 "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
@@ -126,7 +123,7 @@ export default function HeroLight() {
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </GlareButton>
 
           {/* Watch Demo */}
           <Link
