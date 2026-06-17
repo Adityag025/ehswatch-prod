@@ -327,7 +327,7 @@ export default function BlogGrid() {
 
             {/* Row 2 — standard 4-col */}
             {standard.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {standard.map((p) => <StandardCard key={p.slug} post={p} />)}
               </div>
             )}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 import GlareButton from "@/components/ui/GlareButton";
 
@@ -128,30 +128,8 @@ function BlogCard({ blog }: { blog: typeof BLOGS[0] }) {
 
 /* ── Section ── */
 export default function Blogs() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const cardW = el.scrollWidth / BLOGS.length;
-      if (cardW <= 0) return;
-      setActiveIdx(Math.min(BLOGS.length - 1, Math.round(el.scrollLeft / cardW)));
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollToCard = (idx: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cardW = el.scrollWidth / BLOGS.length;
-    el.scrollTo({ left: cardW * idx, behavior: "smooth" });
-  };
-
   return (
-    <section className="bg-[#f8fbff] py-10 md:py-[50px] lg:py-[90px] px-4 md:px-6">
+    <section className="bg-[#f8fbff] py-14 md:py-[90px] px-4 md:px-6">
       <div className="max-w-[1200px] mx-auto">
 
         {/* Centred heading */}
@@ -164,44 +142,12 @@ export default function Blogs() {
           </div>
         </Reveal>
 
-        {/* Cards — horizontal snap-scroll carousel on phone; 2-col / 4-col grid sm+ / lg+ */}
-        <div
-          ref={scrollRef}
-          className="
-            flex sm:grid overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none
-            sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6
-            -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 sm:pb-0
-            [scrollbar-width:none] [-ms-overflow-style:none]
-            [&::-webkit-scrollbar]:hidden
-          "
-        >
+        {/* 4-column card grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {BLOGS.map((blog, i) => (
-            <Reveal
-              key={blog.title + i}
-              variant="soft-up"
-              delay={i * 90}
-              duration={800}
-              className="snap-start shrink-0 w-[88%] sm:w-auto sm:shrink"
-            >
+            <Reveal key={blog.title + i} variant="soft-up" delay={i * 90} duration={800}>
               <BlogCard blog={blog} />
             </Reveal>
-          ))}
-        </div>
-
-        {/* Dot nav — mobile only */}
-        <div className="flex sm:hidden justify-center gap-2 mt-5" role="tablist" aria-label="Blog carousel">
-          {BLOGS.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              role="tab"
-              aria-selected={activeIdx === i}
-              aria-label={`Go to blog post ${i + 1}`}
-              onClick={() => scrollToCard(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                activeIdx === i ? "w-6 bg-[#155eef]" : "w-2 bg-[#cbd5e1] hover:bg-[#94a3b8]"
-              }`}
-            />
           ))}
         </div>
 

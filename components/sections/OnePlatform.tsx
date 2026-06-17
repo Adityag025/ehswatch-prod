@@ -149,13 +149,13 @@ function ComplianceMockup() {
               </div>
 
               {/* name + sub */}
-              <div className="min-w-0 flex-1 sm:flex-none sm:flex-[0_0_130px] lg:flex-[0_0_165px]">
+              <div className="min-w-0" style={{ flex: "0 0 clamp(110px,13vw,165px)" }}>
                 <p className="font-semibold text-[#141f38] text-[13px] leading-tight truncate">{row.name}</p>
                 <p className="text-[#808ca6] text-[10px] leading-tight mt-0.5 truncate">{row.sub}</p>
               </div>
 
-              {/* progress — hidden on phone, shown sm+ */}
-              <div className="hidden sm:flex flex-1 flex-col gap-1 min-w-0">
+              {/* progress */}
+              <div className="flex-1 flex flex-col gap-1 min-w-0">
                 {row.pct !== null ? (
                   <>
                     <span className="font-semibold text-[12px] leading-none" style={{ color: row.barColor }}>
