@@ -573,8 +573,8 @@ export default function IRISChatShowcase() {
 
   return (
     <>
-      {/* Heading */}
-      <section className="pt-[80px] md:pt-[100px] pb-0 px-6 bg-white">
+      {/* Heading — desktop only; mobile heading lives inside the sticky viewport below */}
+      <section className="hidden lg:block pt-[80px] md:pt-[100px] pb-0 px-6 bg-white">
         <div className="max-w-[1160px] mx-auto flex flex-col items-center text-center gap-3">
           <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[26px] sm:text-[34px] md:text-[40px] leading-tight tracking-[-0.025em] text-[#1b1b1b]">
             AI agents available today,{" "}
@@ -587,8 +587,9 @@ export default function IRISChatShowcase() {
         </div>
       </section>
 
-      {/* 700vh sticky scroll */}
-      <div ref={outerRef} style={{ height:"700vh" }}>
+      {/* Sticky scroll — outer wrapper shorter on iPad for less scroll fatigue;
+          sticky inner stays full-viewport so chat appears centered */}
+      <div ref={outerRef} className="h-[300vh] lg:h-[700vh]">
         <div className="sticky top-0 bg-white overflow-hidden" style={{ height:"100vh" }}>
 
           {/* Desktop: 3-col */}
@@ -631,7 +632,18 @@ export default function IRISChatShowcase() {
           </div>
 
           {/* Mobile */}
-          <div className="lg:hidden flex flex-col h-full items-center pt-4 px-4 gap-3 overflow-hidden">
+          <div className="lg:hidden flex flex-col h-full items-center justify-center pt-[96px] pb-4 px-4 gap-3 overflow-hidden">
+            {/* Compact heading — kept visible across every step */}
+            <div className="shrink-0 text-center px-2">
+              <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[20px] sm:text-[24px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-[#1b1b1b]">
+                AI agents available today,{" "}
+                <span style={{ color:"#155eef" }}>more on the way.</span>
+              </h2>
+              <p className="font-[family-name:var(--font-dm-sans)] text-[12px] sm:text-[13px] text-[#727272] mt-0.5">
+                Each capability targets a real EHS gap.
+              </p>
+            </div>
+
             <div className="flex items-center gap-3 shrink-0 self-start pl-1">
               <div style={{ width:3, height:30, background:"linear-gradient(180deg,#ff8e37,#ff6d00)", borderRadius:3 }} />
               <div>
@@ -645,8 +657,7 @@ export default function IRISChatShowcase() {
                 </p>
               </div>
             </div>
-            <div className="flex-1 flex items-center justify-center min-h-0 w-full"
-              style={{ transform:"scale(0.9)", transformOrigin:"top center" }}>
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full scale-90 sm:scale-100 md:scale-110 origin-top">
               <ChatMockup step={step} showIris={showIris} voicePhase={voicePhase} />
             </div>
             <div className="flex gap-2 shrink-0 pb-2">

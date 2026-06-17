@@ -630,14 +630,13 @@ export default function ProductHowItWorks() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#f1f7ff]"
-      style={{ height: `${STEPS.length * 100}vh` }}
+      className="bg-[#f1f7ff] h-[300vh] lg:h-[500vh]"
     >
       {/* Sticky viewport — one screen tall */}
       <div className="sticky top-0 overflow-hidden flex flex-col" style={{ height: "100vh" }}>
 
         {/* ── Heading ── */}
-        <div className="flex-none text-center px-6 pt-[11vh] pb-[1vh]">
+        <div className="flex-none text-center px-6 pt-[7vh] lg:pt-[11vh] pb-[1vh]">
           <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-tight text-[#1b1b1b] tracking-[-0.025em]">
             How <span className="text-[#155eef]">EHSWatch</span> Works
           </h2>
@@ -647,7 +646,7 @@ export default function ProductHowItWorks() {
         </div>
 
         {/* ── Main row ── */}
-        <div className="flex-1 flex items-center gap-8 md:gap-12 max-w-[1200px] mx-auto w-full px-6 md:px-10 pt-[1vh] pb-[5vh]">
+        <div className="flex-1 flex flex-col lg:flex-row items-stretch lg:items-center justify-center lg:justify-start gap-5 lg:gap-12 max-w-[1200px] mx-auto w-full px-6 md:px-10 pt-[1vh] pb-[3vh] lg:pb-[5vh]">
 
           {/* Vertical stepper */}
           <div
@@ -684,7 +683,7 @@ export default function ProductHowItWorks() {
 
           {/* Step text */}
           <div
-            className="flex-1 md:flex-none md:flex-[0_0_260px] lg:flex-[0_0_330px] md:shrink-0 flex flex-col justify-center min-w-0"
+            className="shrink-0 lg:flex-[0_0_330px] flex flex-col justify-center min-w-0"
             style={{
               opacity:    textVisible ? 1 : 0,
               transform:  textVisible ? "translateY(0)" : "translateY(10px)",
@@ -706,7 +705,7 @@ export default function ProductHowItWorks() {
           </div>
 
           {/* Animated visual panel */}
-          <div className="hidden md:block flex-1 min-w-0 overflow-hidden" style={{ height: "62vh" }}>
+          <div className="block w-full lg:flex-1 min-w-0 overflow-hidden h-[50vh] lg:h-[62vh]">
             <div className="w-full h-full relative overflow-hidden">
               {VISUALS.map((Visual, i) => (
                 <div

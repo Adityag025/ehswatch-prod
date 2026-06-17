@@ -52,15 +52,23 @@ export default function Navbar({
     let lastT = -1;
 
     const apply = () => {
+      const header = headerRef.current;
+      const nav    = navRef.current;
+      if (!header || !nav) { raf = 0; return; }
+
+      // On mobile/tablet, always use a solid white background — skip the scroll animation
+      if (window.innerWidth <= 1024) {
+        nav.style.background     = "rgba(255,255,255,0.97)";
+        nav.style.boxShadow      = "0 2px 12px rgba(0,0,0,0.07)";
+        nav.style.backdropFilter = "blur(12px)";
+        raf = 0; return;
+      }
+
       const raw = Math.min(1, Math.max(0, window.scrollY / SCROLL_END));
       const t   = ease(raw);
 
       if (Math.abs(t - lastT) < 0.001) { raf = 0; return; }
       lastT = t;
-
-      const header = headerRef.current;
-      const nav    = navRef.current;
-      if (!header || !nav) { raf = 0; return; }
 
       // ── Header outer padding ──────────────────────────────────
       header.style.paddingLeft  = `${lerp(0, 20, t)}px`;
