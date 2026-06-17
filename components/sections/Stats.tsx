@@ -56,15 +56,15 @@ export default function Stats() {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.3 });
 
   return (
-    <section ref={ref} className="bg-white py-8 md:py-[40px] lg:py-[60px]">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-[32px] grid grid-cols-2 lg:grid-cols-4 gap-y-10">
+    <section ref={ref} className="bg-white py-10 md:py-[73px]">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-[32px] grid grid-cols-2 md:grid-cols-4 gap-y-10">
         {STATS.map((stat, i) => (
           <Reveal
             key={stat.desc1}
             variant={i % 2 === 0 ? "slide-right" : "slide-left"}
             delay={i * 100}
             duration={700}
-            className="flex flex-col gap-2 md:gap-[13.3px] items-center px-2 md:px-4 lg:px-[40px] py-2 md:py-[16px]"
+            className="flex flex-col gap-2 md:gap-[13.3px] items-center px-2 md:px-[40px] py-2 md:py-[16px]"
           >
             <div className="flex items-baseline tabular-nums">
               <span className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[34px] sm:text-[44px] md:text-[56px] lg:text-[66px] leading-none tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2.97px] text-[#0a1628]">

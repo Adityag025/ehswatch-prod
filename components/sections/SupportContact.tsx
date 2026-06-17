@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import GlareButton from "@/components/ui/GlareButton";
 
 /* ── shared input style ── */
 const inputClass =
@@ -94,10 +95,10 @@ function ContactForm() {
         <textarea required rows={5} placeholder="Describe your issue or question in detail…" className={inputClass + " resize-none"} />
       </div>
       <div className="pt-1">
-        <button type="submit" className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-[#ff7812] border border-[#ff7812] bg-transparent hover:bg-orange-50 transition-colors cursor-pointer">
+        <GlareButton fillColor="#FFA660" hoverTextColor="#ffffff" type="submit" className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-[#ff7812] border border-[#ff7812] bg-transparent cursor-pointer">
           Send Message
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#ff7812" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </button>
+        </GlareButton>
       </div>
     </form>
   );
@@ -116,10 +117,10 @@ function LoginForm() {
         <input required type="password" placeholder="••••••••" className={inputClass} />
       </div>
       <div className="flex items-center justify-between pt-1">
-        <button type="submit" className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-[#ff7812] border border-[#ff7812] bg-transparent hover:bg-orange-50 transition-colors cursor-pointer">
+        <GlareButton fillColor="#FFA660" hoverTextColor="#ffffff" type="submit" className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-[#ff7812] border border-[#ff7812] bg-transparent cursor-pointer">
           Log In to Portal
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#ff7812" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </button>
+        </GlareButton>
         <a href="#" className="font-[family-name:var(--font-dm-sans)] text-[13px] text-[#155eef] hover:underline">Forgot password?</a>
       </div>
     </form>
@@ -131,7 +132,7 @@ export default function SupportContact() {
   const [active, setActive] = useState<"contact" | "portal">("contact");
 
   return (
-    <section className="bg-white py-10 md:py-14 lg:py-20 px-4 md:px-6">
+    <section className="bg-white py-12 md:py-20 px-4 md:px-6">
       <div className="max-w-[1160px] mx-auto">
 
         {/* ── Pill tabs ── */}
@@ -155,12 +156,12 @@ export default function SupportContact() {
 
         {/* ── Panel — no card, just the two-column layout ── */}
         <div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
 
             {/* Left — info */}
             <div className="flex flex-col gap-6 justify-center">
               <div>
-                <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[26px] leading-[1.5] sm:leading-snug text-[#0f1728] mb-3">
+                <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[22px] md:text-[26px] leading-snug text-[#0f1728] mb-3">
                   {active === "contact" ? "Contact Support" : "Support Portal"}
                 </h2>
                 <p className="font-[family-name:var(--font-dm-sans)] text-[15px] md:text-[16px] leading-[1.75] text-[#64748b]" style={{ textWrap: "pretty" } as React.CSSProperties}>

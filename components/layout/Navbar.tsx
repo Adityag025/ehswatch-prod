@@ -14,14 +14,14 @@ const ALL_NAV = [
   { label: "Products",  href: "/product",      hideOnScroll: false, hasDropdown: false },
   { label: "IRIS",      href: "/iris",         hideOnScroll: false, hasDropdown: false },
   { label: "Solutions", href: "/solutions-v2", hideOnScroll: false, hasDropdown: false },
-  { label: "Pricing",   href: "#",             hideOnScroll: false, hasDropdown: false },
+  { label: "Pricing",   href: "/pricing",      hideOnScroll: false, hasDropdown: false },
   { label: "Resources", href: "#",             hideOnScroll: false, hasDropdown: true  },
-  { label: "Support",   href: "/support",      hideOnScroll: true,  hasDropdown: false },
+  { label: "Contact Us", href: "/contact-us",   hideOnScroll: true,  hasDropdown: false },
 ];
 
 const RESOURCES_ITEMS = [
-  { label: "Blog",         href: "/blog" },
-  { label: "Case Studies", href: "/case-studies" },
+  { label: "Blog",         href: "/blog",         desc: "Safety insights & best practices", img: "/images/blogs/blog-2.png" },
+  { label: "Case Studies", href: "/case-studies", desc: "See how teams use EHSWatch",       img: "/images/blogs/blog-3.png" },
 ];
 
 const SCROLL_END = 480;  // px over which the full morph completes (higher = slower/smoother)
@@ -37,6 +37,7 @@ export default function Navbar({
   lightHero?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [ctaFill, setCtaFill] = useState({ x: 0, y: 0, on: false });
 
   const headerRef          = useRef<HTMLElement>(null);
   const navRef             = useRef<HTMLElement>(null);
@@ -51,23 +52,15 @@ export default function Navbar({
     let lastT = -1;
 
     const apply = () => {
-      const header = headerRef.current;
-      const nav    = navRef.current;
-      if (!header || !nav) { raf = 0; return; }
-
-      // On mobile/tablet, always use a solid white background — skip the scroll animation
-      if (window.innerWidth <= 1024) {
-        nav.style.background     = "rgba(255,255,255,0.97)";
-        nav.style.boxShadow      = "0 2px 12px rgba(0,0,0,0.07)";
-        nav.style.backdropFilter = "blur(12px)";
-        raf = 0; return;
-      }
-
       const raw = Math.min(1, Math.max(0, window.scrollY / SCROLL_END));
       const t   = ease(raw);
 
       if (Math.abs(t - lastT) < 0.001) { raf = 0; return; }
       lastT = t;
+
+      const header = headerRef.current;
+      const nav    = navRef.current;
+      if (!header || !nav) { raf = 0; return; }
 
       // ── Header outer padding ──────────────────────────────────
       header.style.paddingLeft  = `${lerp(0, 20, t)}px`;
@@ -81,7 +74,7 @@ export default function Navbar({
       nav.style.maxWidth       = `${lerp(2400, 860, t)}px`;
       nav.style.borderRadius   = `${lerp(0, 9999, t)}px`;
       nav.style.gap            = `${lerp(0, 0, t)}px`;   // gap handled per-link via padding
-      nav.style.background     = `rgba(255,255,255,${lerp(lightHero ? 1 : 0, 0.92, t)})`;
+      nav.style.background     = `rgba(255,255,255,${lerp(0, 0.92, t)})`;
       nav.style.boxShadow      = `0 8px 32px rgba(0,0,0,${lerp(0, 0.10, t)})`;
       nav.style.backdropFilter = `blur(${lerp(0, 12, t)}px)`;
 
@@ -173,7 +166,7 @@ export default function Navbar({
           paddingLeft: "40px", paddingRight: "40px",
           paddingTop: "14px", paddingBottom: "14px",
           maxWidth: "2400px", borderRadius: "0px",
-          background: lightHero ? "rgba(255,255,255,1)" : "rgba(255,255,255,0)", boxShadow: "none", gap: "24px",
+          background: "rgba(255,255,255,0)", boxShadow: "none", gap: "24px",
           willChange: "padding, max-width, border-radius, background",
         }}
       >
@@ -205,7 +198,7 @@ export default function Navbar({
               <div
                 key={link.label}
                 ref={(el) => { linkRefs.current[i] = el; }}
-                className="relative group shrink-0"
+                className="relative group shrink-0 pointer-events-auto"
                 style={{
                   color: initColor, textShadow: initShadow,
                   fontSize: "15px", paddingLeft: "14px", paddingRight: "14px",
@@ -221,10 +214,7 @@ export default function Navbar({
                   </svg>
                 </button>
 
-                {/* Invisible bridge — fills the gap so hover isn't lost moving to the dropdown */}
-                <div className="absolute top-full left-0 right-0 h-[10px]" />
-
-                {/* Dropdown panel — image + title + desc, 2-column */}
+                {/* Dropdown panel — 2-column */}
                 <div className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-[0_20px_56px_rgba(0,0,0,0.14)] border border-[#f0f2f5] p-4 w-[480px] opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 translate-y-2 group-hover:translate-y-0 z-50">
                   {/* caret */}
                   <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-l border-t border-[#f0f2f5] rotate-45" />
@@ -233,18 +223,13 @@ export default function Navbar({
                       <Link
                         key={item.label}
                         href={item.href}
-                        className="group/card flex flex-col gap-2.5 rounded-xl overflow-hidden hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all duration-200 border border-transparent hover:border-[#e8edf5]"
+                        className="group/card flex flex-col gap-2.5 rounded-xl overflow-hidden transition-all duration-200"
                       >
                         {/* Thumbnail image */}
-                        <div
-                          className="w-full overflow-hidden rounded-xl"
-                          style={{ aspectRatio: "16/9" }}
-                        >
+                        <div className="w-full overflow-hidden rounded-xl" style={{ aspectRatio: "16/9" }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={item.label === "Blog"
-                              ? basePath + "/images/blogs/blog-2.png"
-                              : basePath + "/images/blogs/blog-3.png"}
+                            src={basePath + item.img}
                             alt={item.label}
                             className="w-full h-full object-cover group-hover/card:scale-[1.03] transition-transform duration-300"
                           />
@@ -252,12 +237,10 @@ export default function Navbar({
                         {/* Text */}
                         <div className="px-1 pb-2 flex flex-col gap-1">
                           <span className="font-[family-name:var(--font-gothic-a1)] font-bold text-[13px] text-[#0f172a]">
-                            {item.label === "Blog" ? "Blog" : "Case Studies"}
+                            {item.label}
                           </span>
                           <span className="font-[family-name:var(--font-dm-sans)] text-[11.5px] text-[#64748b] leading-[1.5]" style={{ textWrap: "pretty" } as React.CSSProperties}>
-                            {item.label === "Blog"
-                              ? "Safety insights & best practices"
-                              : "See how teams use EHSWatch"}
+                            {item.desc}
                           </span>
                         </div>
                       </Link>
@@ -290,7 +273,15 @@ export default function Navbar({
         <Link
           href="#"
           ref={ctaRef}
-          className="hidden sm:inline-flex shrink-0 items-center font-medium tracking-[-0.24px] rounded-full whitespace-nowrap font-[family-name:var(--font-dm-sans)] hover:opacity-90 transition-opacity border-[1.5px]"
+          onMouseEnter={(e) => {
+            const r = ctaRef.current?.getBoundingClientRect();
+            if (r) setCtaFill({ x: e.clientX - r.left, y: e.clientY - r.top, on: true });
+          }}
+          onMouseLeave={(e) => {
+            const r = ctaRef.current?.getBoundingClientRect();
+            if (r) setCtaFill({ x: e.clientX - r.left, y: e.clientY - r.top, on: false });
+          }}
+          className="hidden sm:inline-flex shrink-0 items-center relative overflow-hidden font-medium tracking-[-0.24px] rounded-full whitespace-nowrap font-[family-name:var(--font-dm-sans)] border-[1.5px]"
           style={{
             background: "rgba(255,109,0,0)",
             color: "rgb(255,109,0)",
@@ -302,25 +293,34 @@ export default function Navbar({
             transform: "translateZ(0)",
           }}
         >
-          Book Demo
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: ctaFill.x, top: ctaFill.y,
+              width: 260, height: 260, marginLeft: -130, marginTop: -130,
+              borderRadius: "9999px", background: "#FF6D00",
+              transform: `scale(${ctaFill.on ? 1 : 0})`,
+              transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
+              pointerEvents: "none", zIndex: 0,
+            }}
+          />
+          <span className="relative z-[1]" style={{ color: ctaFill.on ? "#ffffff" : undefined, transition: "color 0.25s ease" }}>
+            Book Demo
+          </span>
         </Link>
 
         {/* ── Mobile hamburger ──────────────────────────────── */}
         <button
-          type="button"
           onClick={() => setOpen((o) => !o)}
-          onPointerDown={(e) => { e.currentTarget.releasePointerCapture(e.pointerId); }}
-          aria-expanded={open}
+          className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/5"
           aria-label="Toggle menu"
-          className="lg:hidden relative z-[60] w-11 h-11 flex items-center justify-center rounded-full hover:bg-black/5 active:bg-black/10 cursor-pointer"
-          style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
         >
           <svg
             ref={hamburgerStrokeRef}
             width="20" height="20" viewBox="0 0 24 24"
-            stroke="rgb(64,64,64)"
+            stroke={lightHero ? "rgb(64,64,64)" : "rgb(255,255,255)"}
             strokeWidth="2" strokeLinecap="round" fill="none"
-            style={{ pointerEvents: "none" }}
           >
             {open ? (
               <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
@@ -353,6 +353,7 @@ export default function Navbar({
                     {item.label}
                   </Link>
                 ))}
+
               </div>
             </details>
           ) : (

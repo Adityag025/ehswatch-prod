@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import { basePath } from "@/lib/basePath";
 import GlareButton from "@/components/ui/GlareButton";
@@ -6,7 +5,7 @@ import GlareButton from "@/components/ui/GlareButton";
 export default function CTABanner() {
   return (
     <section
-      className="relative py-10 md:py-[50px] px-4 md:px-6 overflow-hidden"
+      className="relative py-12 md:py-[61px] px-4 md:px-6 overflow-hidden"
       style={{
         background: '#f1f7ff',
         backgroundImage: `url(${basePath}/images/product/cta-background.svg)`,
@@ -17,7 +16,7 @@ export default function CTABanner() {
     >
       <div className="max-w-[800px] mx-auto flex flex-col gap-3 md:gap-[16px] items-center">
         <Reveal variant="slide-right" duration={750}>
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[44px] leading-[1.5] sm:leading-tight text-[#0a0f1e] text-center">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[44px] leading-tight text-[#0a0f1e] text-center">
             Ready to See EHSWatch in Action?
           </h2>
         </Reveal>
@@ -39,12 +38,14 @@ export default function CTABanner() {
             Book Your Free Demo
           </GlareButton>
 
-          <Link
+          <GlareButton
             href="#"
-            className="w-full sm:w-auto flex items-center justify-center px-6 md:px-[26px] py-3 md:py-[10px] rounded-full bg-[rgba(255,120,44,0.1)] border border-[rgba(255,120,44,0.2)] font-[family-name:var(--font-inter)] font-medium text-[14px] text-[#ff6d00] hover:bg-orange-50 transition-colors"
+            fillColor="#FFA660"
+            hoverTextColor="#ffffff"
+            className="w-full sm:w-auto px-6 md:px-[26px] py-3 md:py-[10px] rounded-full bg-[rgba(255,120,44,0.1)] border border-[rgba(255,120,44,0.2)] font-[family-name:var(--font-inter)] font-medium text-[14px] text-[#ff6d00] whitespace-nowrap"
           >
             View Pricing
-          </Link>
+          </GlareButton>
         </Reveal>
       </div>
     </section>

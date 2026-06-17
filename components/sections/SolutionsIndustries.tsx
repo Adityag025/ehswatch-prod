@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { basePath } from "@/lib/basePath";
 
-const GIF = basePath + "/images/Solutions_/GIF/";
+const VID = basePath + "/images/Solutions_/Videos/";
 
 /* ── keyframes ── */
 const STYLES = `
@@ -22,7 +22,7 @@ const INDUSTRIES = [
     key: "construction",
     number: "1.",
     label: "Construction & Infrastructure",
-    video: GIF + "Construction-%26-Infrastructure_1.gif",
+    video: VID + "construction-infrastructure.mp4",
     solutions: [
       "Real‑time hazard and near‑miss reporting from the field",
       "Digital checklists and inspection templates for each site",
@@ -33,7 +33,7 @@ const INDUSTRIES = [
     key: "manufacturing",
     number: "2.",
     label: "Manufacturing & Engineering",
-    video: GIF + "Manufacturing-%26-Engineering.gif",
+    video: VID + "manufacturing-engineering.mp4",
     solutions: [
       "Scheduled audits and equipment‑specific inspection checklists",
       "Digital LOTO and maintenance work‑order workflows",
@@ -44,7 +44,7 @@ const INDUSTRIES = [
     key: "oil-gas",
     number: "3.",
     label: "Oil, Gas & Energy",
-    video: GIF + "Oil%2C-Gas-%26-Energy.gif",
+    video: VID + "oil-gas-energy.mp4",
     solutions: [
       "Digitised permit‑to‑work workflows with clear approvals",
       "Incident reporting and investigation tracking with closure workflows",
@@ -55,7 +55,7 @@ const INDUSTRIES = [
     key: "logistics",
     number: "4.",
     label: "Logistics, Warehousing & Transport",
-    video: GIF + "Logistics%2C-Warehousing-%26-Transport.gif",
+    video: VID + "logistics-warehousing-transport.mp4",
     solutions: [
       "Digital incident and near‑miss reporting for fleet and warehouse teams",
       "Inspection checklists for vehicles, forklifts, and racking systems",
@@ -66,7 +66,7 @@ const INDUSTRIES = [
     key: "facilities",
     number: "5.",
     label: "Facilities & Property Management",
-    video: GIF + "Facilities-%26-Property-Management-3.gif",
+    video: VID + "facilities-property-management.mp4",
     solutions: [
       "Vendor safety questionnaires and onboarding within the system",
       "Digital fire‑safety and building‑inspection checklists",
@@ -77,7 +77,7 @@ const INDUSTRIES = [
     key: "utilities",
     number: "6.",
     label: "Utilities & Public Services",
-    video: GIF + "Utilities-and-Public-Services.gif",
+    video: VID + "utilities-and-public-services.mp4",
     solutions: [
       "Mobile‑first incident and near‑miss reporting for field teams",
       "Digital checklists for outage‑management and safety‑permit workflows",
@@ -95,6 +95,7 @@ export default function SolutionsIndustries() {
   const [inView,      setInView]      = useState(false);
   const [stylesReady, setStylesReady] = useState(false);
   const [visible,     setVisible]     = useState(true);
+  const [videoReady,  setVideoReady]  = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const prevActive = useRef(0);
 
@@ -134,22 +135,24 @@ export default function SolutionsIndustries() {
     if (active === prevActive.current) return;
     prevActive.current = active;
     setVisible(false);
+    setVideoReady(false);
     setTimeout(() => setVisible(true), 200);
   }, [active]);
 
   const ind = INDUSTRIES[active];
+  const nextInd = INDUSTRIES[(active + 1) % N];
 
   return (
     <section
       ref={sectionRef}
       id="industries"
-      className="bg-white py-10 md:py-14 lg:py-20 px-4 md:px-6"
+      className="bg-white py-12 md:py-20 px-4 md:px-6"
     >
       <div className="max-w-[1160px] mx-auto">
 
         {/* ── Heading ── */}
         <div className="text-center mb-10 md:mb-14">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[26px] sm:text-[32px] md:text-[38px] leading-[1.5] sm:leading-[1.15] text-[#0f1728]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[26px] sm:text-[32px] md:text-[38px] leading-[1.15] text-[#0f1728]">
             Built for <span className="text-[#155eef]">Your Industry</span>
           </h2>
           <p className="mt-2 font-[family-name:var(--font-dm-sans)] text-[15px] md:text-[16px] text-[#64748b] leading-[1.7] max-w-[600px] mx-auto">
@@ -174,9 +177,9 @@ export default function SolutionsIndustries() {
                 tabIndex={active === i ? 0 : -1}
                 onClick={() => { setActive(i); setCycleKey((k) => k + 1); }}
                 className={[
-                  "shrink-0 sm:flex-1 flex flex-col items-center justify-center px-3 sm:px-2 md:px-3 py-[12px] md:py-[17px] min-h-[48px] md:min-h-[72px]",
-                  "text-[11px] sm:text-[11px] md:text-[13px] font-medium cursor-pointer whitespace-nowrap",
-                  "transition-colors relative overflow-hidden",
+                  "flex-1 flex flex-col items-center justify-center px-2 md:px-3 py-[14px] md:py-[17px] min-h-[56px] md:min-h-[72px]",
+                  "text-[10px] sm:text-[11px] md:text-[13px] font-medium cursor-pointer",
+                  "transition-colors min-w-0 relative overflow-hidden",
                   i < N - 1 ? "border-r border-r-[#dde2eb]" : "",
                   active === i ? "text-[#0a0f1e]" : "text-[#888] hover:text-[#555]",
                 ].join(" ")}
@@ -215,23 +218,70 @@ export default function SolutionsIndustries() {
           {/* Content panel */}
           <div className="flex flex-col md:flex-row items-center min-h-[440px] md:min-h-[500px] px-8 md:px-12 py-8 md:py-12 gap-8 md:gap-12">
 
-            {/* Left — GIF */}
+            {/* Left — video */}
             <div
-              className="flex-none md:flex-[0_0_54%] flex items-center justify-center"
+              className="flex-none md:flex-[0_0_54%] flex items-center justify-center relative"
               style={{
                 opacity: visible ? 1 : 0,
                 transition: "opacity 0.25s ease",
+                minHeight: "220px",
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                key={ind.video}
-                src={ind.video}
-                alt={ind.label}
-                className="w-full h-auto rounded-[8px]"
-                style={{ maxHeight: "500px", objectFit: "contain", display: "block" }}
-              />
+              {/* Spinner shown while buffering */}
+              {!videoReady && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full border-2 border-[#e2e8f0] border-t-[#155eef] animate-spin" />
+                </div>
+              )}
+
+              {ind.video.endsWith(".mp4") ? (
+                <video
+                  key={ind.video}
+                  src={ind.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  onCanPlay={() => setVideoReady(true)}
+                  className="w-full h-auto rounded-[8px]"
+                  style={{
+                    maxHeight: "500px",
+                    objectFit: "contain",
+                    display: "block",
+                    opacity: videoReady ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={ind.video}
+                  src={ind.video}
+                  alt={ind.label}
+                  onLoad={() => setVideoReady(true)}
+                  className="w-full h-auto rounded-[8px]"
+                  style={{
+                    maxHeight: "500px",
+                    objectFit: "contain",
+                    display: "block",
+                    opacity: videoReady ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                />
+              )}
             </div>
+
+            {/* Hidden preloader for next industry video */}
+            {nextInd.video.endsWith(".mp4") && nextInd.video !== ind.video && (
+              <video
+                key={`preload-${nextInd.video}`}
+                src={nextInd.video}
+                preload="auto"
+                muted
+                style={{ display: "none" }}
+              />
+            )}
 
             {/* Right — heading + solution bullets */}
             <div

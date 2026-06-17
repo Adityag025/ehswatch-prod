@@ -1,6 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Hero from "@/components/sections/Hero";
+import HeroV2 from "@/components/sections/HeroV2";
 import TrustedLogos from "@/components/sections/TrustedLogos";
 import Stats from "@/components/sections/Stats";
 import PainPoints from "@/components/sections/PainPoints";
@@ -16,7 +16,7 @@ export default function HomeV2Page() {
     <>
       <Navbar lightHero />
       <main>
-        <Hero />
+        <HeroV2 />
         <TrustedLogos />
         <Stats />
         <PainPoints />

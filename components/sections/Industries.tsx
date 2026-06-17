@@ -51,7 +51,7 @@ const INDUSTRIES = [
 
 export default function Industries() {
   return (
-    <section className="bg-[#eef4fb] py-10 md:py-14 lg:py-20 px-4 md:px-6">
+    <section className="bg-[#eef4fb] py-12 md:py-20 px-4 md:px-6">
       <div className="max-w-[1100px] mx-auto">
         <Reveal variant="fade-up" duration={700}>
           <div className="text-center mb-8 md:mb-12">
@@ -77,7 +77,7 @@ export default function Industries() {
             >
               {/* Text on top */}
               <div className="relative z-10 p-5 md:p-6">
-                <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[15px] md:text-[17px] leading-[1.5] sm:leading-snug text-[#0e1a2b] mb-1.5">
+                <h3 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[15px] md:text-[17px] leading-snug text-[#0e1a2b] mb-1.5">
                   {industry.title}
                 </h3>
                 <p className="font-[family-name:var(--font-dm-sans)] text-[12px] md:text-[13px] text-[#555] leading-relaxed max-w-[260px]">

@@ -59,12 +59,12 @@ export default function AboutStory() {
   }, []);
 
   return (
-    <section className="bg-white py-[40px] md:py-[60px] lg:py-[120px]">
+    <section className="bg-white py-[60px] md:py-[100px] lg:py-[120px]">
       <div className="max-w-[1160px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1fr_1.25fr] gap-10 md:gap-12 lg:gap-[96px] items-start">
 
         {/* Sticky left — title */}
         <div className="md:sticky md:top-[120px]">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] md:text-[40px] leading-[1.5] sm:leading-[1.12] text-[#1b1b1b] tracking-[-0.03em]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] md:text-[40px] leading-[1.12] text-[#1b1b1b] tracking-[-0.03em]">
             About{" "}
             <span className="text-[#155eef]">EHSWatch</span>
           </h2>

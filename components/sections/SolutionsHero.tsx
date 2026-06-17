@@ -1,10 +1,13 @@
 "use client";
 
+import GlareButton from "@/components/ui/GlareButton";
+
 export default function SolutionsHero() {
   return (
     <section
-      className="relative overflow-hidden flex items-center justify-center px-4 sm:px-6 pt-[90px] sm:pt-[110px] md:pt-[130px] pb-[20px] sm:pb-[40px] md:pb-[60px] lg:min-h-[60vh]"
+      className="relative overflow-hidden flex items-center justify-center px-4 sm:px-6 pt-[90px] sm:pt-[120px] md:pt-[148px] pb-[60px] sm:pb-[80px] md:pb-[100px]"
       style={{
+        minHeight: "60vh",
         background: "linear-gradient(to bottom, white 0%, white 85%, rgba(248,250,252,0.5) 100%)",
       }}
     >
@@ -59,7 +62,7 @@ export default function SolutionsHero() {
       {/* Content */}
       <div className="relative z-20 max-w-[900px] w-full mx-auto text-center flex flex-col items-center gap-5 md:gap-6">
         <h1
-          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[26px] sm:text-[38px] md:text-[48px] lg:text-[54px] leading-[1.5] sm:leading-[1.15] lg:leading-[1.08] text-gray-900 tracking-[-0.03em] animate-hero-rise"
+          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[30px] sm:text-[42px] md:text-[54px] leading-[1.08] text-gray-900 tracking-[-0.03em] animate-hero-rise"
           style={{ animationDelay: "80ms" }}
         >
           Every Industry Has Different Risks.{" "}
@@ -67,9 +70,9 @@ export default function SolutionsHero() {
         </h1>
 
         <div className="flex flex-wrap gap-3 justify-center animate-hero-rise" style={{ animationDelay: "320ms" }}>
-          <a
+          <GlareButton
             href="#"
-            className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white hover:opacity-90 transition-all duration-200 hover:shadow-lg"
+            className="px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white transition-all duration-200 hover:shadow-lg"
             style={{
               backgroundImage: "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
               boxShadow: "0 4px 24px rgba(249,115,22,0.35)",
@@ -79,13 +82,15 @@ export default function SolutionsHero() {
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
-          <a
+          </GlareButton>
+          <GlareButton
             href="#industries"
-            className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-[#1b1b1b] border border-[#d1d5db] hover:border-[#9ca3af] transition-colors duration-200"
+            fillColor="#FFA660"
+            hoverTextColor="#ffffff"
+            className="px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-[#1b1b1b] border border-[#d1d5db] hover:border-[#9ca3af]"
           >
             Explore Industries
-          </a>
+          </GlareButton>
         </div>
       </div>
     </section>

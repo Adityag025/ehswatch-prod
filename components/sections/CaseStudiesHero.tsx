@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import GlareButton from "@/components/ui/GlareButton";
 
 export default function CaseStudiesHero() {
   return (
@@ -50,7 +50,7 @@ export default function CaseStudiesHero() {
 
       <div className="relative z-20 max-w-[720px] w-full mx-auto text-center flex flex-col items-center gap-5">
         <h1
-          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] sm:text-[46px] md:text-[56px] leading-[1.5] sm:leading-[1.06] tracking-[-0.03em] animate-hero-rise"
+          className="font-[family-name:var(--font-gothic-a1)] font-bold text-[32px] sm:text-[46px] md:text-[56px] leading-[1.06] tracking-[-0.03em] animate-hero-rise"
           style={{ color: "#0a1628", animationDelay: "80ms" }}
         >
           Proof from the Field,<br />
@@ -63,21 +63,23 @@ export default function CaseStudiesHero() {
           EHSQ teams across construction, energy, manufacturing, logistics and other sectors use EHSWatch to cut reporting time, accelerate audits, close actions faster and gain clear visibility into risk across every site.
         </p>
         <div className="flex flex-wrap gap-3 justify-center animate-hero-rise" style={{ animationDelay: "320ms" }}>
-          <a
+          <GlareButton
             href="#case-studies"
-            className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-white hover:opacity-90 transition-opacity"
+            className="gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-white"
             style={{
               backgroundImage: "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)",
             }}
           >
             Explore Case Studies
-          </a>
-          <Link
+          </GlareButton>
+          <GlareButton
+            fillColor="#FFA660"
+            hoverTextColor="#ffffff"
             href="#"
-            className="inline-flex items-center gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-[#1b1b1b] border border-[#d1d5db] hover:border-[#9ca3af] transition-colors"
+            className="gap-2 px-7 py-[11px] rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[14px] text-[#1b1b1b] border border-[#d1d5db]"
           >
             Talk to Experts
-          </Link>
+          </GlareButton>
         </div>
       </div>
     </section>

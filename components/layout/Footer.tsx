@@ -11,27 +11,27 @@ const COMPANY = [
   { label: "Pricing",      href: "#" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Blogs",        href: "/blog" },
-  { label: "Contact",      href: "/support" },
+  { label: "Contact",      href: "/contact-us" },
 ];
 
-const MODULES_COL1 = [
-  "Action Tracker",
-  "Audit Management",
-  "Customer Complaints",
-  "Emergency Response Drills",
-  "File Management",
-  "HSE Observations",
-  "Incident Management",
-  "Inspections",
+const MODULES_COL1: { label: string; href: string }[] = [
+  { label: "Action Tracker",           href: "/modules/action-tracker" },
+  { label: "Audit Management",         href: "/product" },
+  { label: "Customer Complaints",      href: "/product" },
+  { label: "Emergency Response Drills",href: "/product" },
+  { label: "File Management",          href: "/product" },
+  { label: "HSE Observations",         href: "/product" },
+  { label: "Incident Management",      href: "/product" },
+  { label: "Inspections",              href: "/product" },
 ];
-const MODULES_COL2 = [
-  "Legal Register",
-  "Management of Change",
-  "Meetings Management",
-  "Non-conformance",
-  "Permit to Work",
-  "Risk Assessment",
-  "Training Management",
+const MODULES_COL2: { label: string; href: string }[] = [
+  { label: "Legal Register",       href: "/product" },
+  { label: "Management of Change", href: "/product" },
+  { label: "Meetings Management",  href: "/product" },
+  { label: "Non-conformance",      href: "/product" },
+  { label: "Permit to Work",       href: "/product" },
+  { label: "Risk Assessment",      href: "/product" },
+  { label: "Training Management",  href: "/product" },
 ];
 
 export default function Footer() {
@@ -97,25 +97,25 @@ export default function Footer() {
           </p>
           <div className="grid grid-cols-2 gap-x-5 gap-y-[10px] w-full">
             <ul className="flex flex-col gap-[10px]">
-              {MODULES_COL1.map((name) => (
-                <li key={name}>
+              {MODULES_COL1.map((mod) => (
+                <li key={mod.label}>
                   <Link
-                    href="/product"
+                    href={mod.href}
                     className="font-[family-name:var(--font-inter)] text-[12.5px] text-white/60 hover:text-white transition-colors leading-snug"
                   >
-                    {name}
+                    {mod.label}
                   </Link>
                 </li>
               ))}
             </ul>
             <ul className="flex flex-col gap-[10px]">
-              {MODULES_COL2.map((name) => (
-                <li key={name}>
+              {MODULES_COL2.map((mod) => (
+                <li key={mod.label}>
                   <Link
-                    href="/product"
+                    href={mod.href}
                     className="font-[family-name:var(--font-inter)] text-[12.5px] text-white/60 hover:text-white transition-colors leading-snug"
                   >
-                    {name}
+                    {mod.label}
                   </Link>
                 </li>
               ))}

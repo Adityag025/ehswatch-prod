@@ -268,7 +268,7 @@ function SmartInput({ step, voicePhase }: { step: number; voicePhase: 0|1|2 }) {
       i++;
       setTyped(VOICE_TEXT.slice(0, i));
       if (i >= VOICE_TEXT.length) clearInterval(t);
-    }, 38);
+    }, 18);
     return () => clearInterval(t);
   }, [step, voicePhase]);
 
@@ -511,14 +511,14 @@ export default function IRISChatShowcase() {
     clearTimeout(voiceTimerT2.current);
     setVoicePhase(0);
     setShowIris(false);
-    voiceTimerT1.current = setTimeout(() => setVoicePhase(1), 1400);
-    const textDuration = VOICE_TEXT.length * 38 + 400;
+    voiceTimerT1.current = setTimeout(() => setVoicePhase(1), 500);
+    const textDuration = VOICE_TEXT.length * 18 + 400;
     voiceTimerT2.current = setTimeout(() => {
       setVoicePhase(2);
-      // Show IRIS reply 760ms after typing finishes
+      // Show IRIS reply 300ms after typing finishes
       clearTimeout(irisTimerRef.current);
-      irisTimerRef.current = setTimeout(() => setShowIris(true), 760);
-    }, 1400 + textDuration);
+      irisTimerRef.current = setTimeout(() => setShowIris(true), 300);
+    }, 500 + textDuration);
   };
 
   // Inject CSS once
@@ -535,12 +535,8 @@ export default function IRISChatShowcase() {
     const onScroll = () => {
       const el = outerRef.current;
       if (!el) return;
-      const sticky = el.firstElementChild as HTMLElement | null;
-      const stickyH = sticky?.offsetHeight ?? window.innerHeight;
-      const pinning = Math.max(1, el.offsetHeight - stickyH);
-      const stepSize = pinning / FEATURES.length;
       const scrolled = -el.getBoundingClientRect().top;
-      const newStep = scrolled < 0 ? -1 : Math.min(Math.floor(scrolled / stepSize), 5);
+      const newStep = scrolled < 0 ? -1 : Math.min(Math.floor(scrolled / window.innerHeight), 5);
 
       if (newStep === prevStepRef.current) return; // no change — skip
       prevStepRef.current = newStep;
@@ -565,7 +561,7 @@ export default function IRISChatShowcase() {
         clearTimeout(voiceTimerT2.current);
         setShowIris(false);
         clearTimeout(irisTimerRef.current);
-        irisTimerRef.current = setTimeout(() => setShowIris(true), 760);
+        irisTimerRef.current = setTimeout(() => setShowIris(true), 400);
       }
     };
 
@@ -577,23 +573,23 @@ export default function IRISChatShowcase() {
 
   return (
     <>
-      {/* Heading — desktop only; mobile heading lives inside the sticky viewport below */}
-      <section className="hidden lg:block pt-[80px] md:pt-[100px] pb-0 px-6 bg-white">
+      {/* Heading */}
+      <section className="pt-[80px] md:pt-[100px] pb-0 px-6 bg-white">
         <div className="max-w-[1160px] mx-auto flex flex-col items-center text-center gap-3">
-          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[26px] sm:text-[34px] md:text-[40px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-[#1b1b1b]">
+          <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[26px] sm:text-[34px] md:text-[40px] leading-tight tracking-[-0.025em] text-[#1b1b1b]">
             AI agents available today,{" "}
             <span style={{ color:"#155eef" }}>more on the way.</span>
           </h2>
-          <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] text-[#727272]">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] text-[#727272]"
+            style={{ whiteSpace:"nowrap" }}>
             Each capability targets a real EHS gap. Scroll to see IRIS at work across all six.
           </p>
         </div>
       </section>
 
-      {/* Sticky scroll — outer wrapper shorter on iPad for less scroll fatigue;
-          sticky inner stays full-viewport so chat appears centered */}
-      <div ref={outerRef} className="h-[300vh] lg:h-[700vh]">
-        <div className="sticky top-0 bg-white overflow-hidden h-screen">
+      {/* 700vh sticky scroll */}
+      <div ref={outerRef} style={{ height:"700vh" }}>
+        <div className="sticky top-0 bg-white overflow-hidden" style={{ height:"100vh" }}>
 
           {/* Desktop: 3-col */}
           <div className="hidden lg:grid h-full max-w-[1160px] mx-auto px-8 items-center"
@@ -635,18 +631,7 @@ export default function IRISChatShowcase() {
           </div>
 
           {/* Mobile */}
-          <div className="lg:hidden flex flex-col h-full items-center justify-center pt-[96px] pb-4 px-4 gap-3 overflow-hidden">
-            {/* Compact heading — kept visible across every step */}
-            <div className="shrink-0 text-center px-2">
-              <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[20px] sm:text-[24px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-[#1b1b1b]">
-                AI agents available today,{" "}
-                <span style={{ color:"#155eef" }}>more on the way.</span>
-              </h2>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[12px] sm:text-[13px] text-[#727272] mt-0.5">
-                Each capability targets a real EHS gap.
-              </p>
-            </div>
-
+          <div className="lg:hidden flex flex-col h-full items-center pt-4 px-4 gap-3 overflow-hidden">
             <div className="flex items-center gap-3 shrink-0 self-start pl-1">
               <div style={{ width:3, height:30, background:"linear-gradient(180deg,#ff8e37,#ff6d00)", borderRadius:3 }} />
               <div>
@@ -660,7 +645,8 @@ export default function IRISChatShowcase() {
                 </p>
               </div>
             </div>
-            <div className="flex-1 flex items-center justify-center min-h-0 w-full scale-90 sm:scale-100 md:scale-110 origin-top">
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full"
+              style={{ transform:"scale(0.9)", transformOrigin:"top center" }}>
               <ChatMockup step={step} showIris={showIris} voicePhase={voicePhase} />
             </div>
             <div className="flex gap-2 shrink-0 pb-2">

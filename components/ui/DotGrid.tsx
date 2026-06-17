@@ -106,11 +106,8 @@ export default function DotGrid({
     }
 
     resize();
-    let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== "undefined") {
-      ro = new ResizeObserver(resize);
-      if (canvas.parentElement) ro.observe(canvas.parentElement);
-    }
+    const ro = new ResizeObserver(resize);
+    if (canvas.parentElement) ro.observe(canvas.parentElement);
 
     function tick() {
       frame++;
@@ -166,13 +163,21 @@ export default function DotGrid({
 
     raf = requestAnimationFrame(tick);
 
+    // Listen on window so elements above the canvas don't block hover
     function onMouseMove(e: MouseEvent) {
       const rect = canvas!.getBoundingClientRect();
       const now  = performance.now();
       const x    = e.clientX - rect.left;
       const y    = e.clientY - rect.top;
-      const dt   = now - mouse.lastT || 16;
 
+      // Only track when cursor is within the canvas bounds
+      const inBounds = x >= 0 && y >= 0 && x <= canvas!.width && y <= canvas!.height;
+      if (!inBounds) {
+        mouse.x = -9999; mouse.y = -9999;
+        return;
+      }
+
+      const dt   = now - mouse.lastT || 16;
       const vx    = ((x - mouse.lastX) / dt) * 16;
       const vy    = ((y - mouse.lastY) / dt) * 16;
       const speed = Math.sqrt(vx * vx + vy * vy);
@@ -195,16 +200,12 @@ export default function DotGrid({
       mouse = { x, y, lastX: x, lastY: y, lastT: now };
     }
 
-    function onMouseLeave() { mouse.x = -9999; mouse.y = -9999; }
-
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("mousemove", onMouseMove);
 
     return () => {
       cancelAnimationFrame(raf);
-      ro?.disconnect();
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("mouseleave", onMouseLeave);
+      ro.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
     };
   }, [dotSize, gap, baseColor, activeColor, proximity, speedTrigger, shockRadius, shockStrength, maxSpeed, returnDuration]);
 

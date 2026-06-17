@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
 import Link from "next/link";
+import GlareButton from "@/components/ui/GlareButton";
 import { basePath } from "@/lib/basePath";
 
 // ── SVG Icons ──────────────────────────────────────────────────────────────
@@ -112,31 +113,33 @@ const Icons: Record<string, ReactElement> = {
 // ── Module data ────────────────────────────────────────────────────────────
 
 const MODULES = [
-  { name: "Action Tracker", desc: "Track corrective and preventive actions to closure with owners, due dates, reminders, and full accountability.", color: "#155eef", icon: "check-circle", href: "/modules/action-tracker/" },
-  { name: "Audit Management", desc: "Plan and run audits with configurable checklists, structured findings, and follow-up workflows that close compliance gaps faster.", color: "#6366f1", icon: "clipboard" },
-  { name: "Customer Complaints", desc: "Capture, assign, investigate and resolve customer complaints through a structured workflow with full audit trail.", color: "#0891b2", icon: "chat-warning" },
-  { name: "Emergency Response Drills", desc: "Schedule, record, and review emergency drills so teams can test readiness and turn lessons learned into tracked actions.", color: "#ef4444", icon: "alarm" },
-  { name: "File Management", desc: "Centralise EHSQ documents with version control, access permissions and expiry alerts — always the right version at the point of need.", color: "#059669", icon: "folder" },
-  { name: "HSE Observations", desc: "Report unsafe acts, unsafe conditions, and positive behaviours in real time to strengthen proactive safety reporting across sites.", color: "#f59e0b", icon: "eye" },
-  { name: "Inspections", desc: "Conduct digital inspections with custom forms, instant findings capture, and reporting that helps teams act on issues sooner.", color: "#155eef", icon: "search" },
-  { name: "Incident Management", desc: "Manage incidents, accidents, and near misses through reporting, investigation, root cause analysis, and corrective action workflows.", color: "#ef4444", icon: "warning" },
-  { name: "Legal Register", desc: "Maintain a central record of legal and regulatory obligations so your teams can monitor updates and stay audit-ready.", color: "#7c3aed", icon: "book" },
-  { name: "Management of Change", desc: "Control operational and process changes with structured reviews, risk assessments, approvals, and full implementation traceability.", color: "#0891b2", icon: "arrows-cycle" },
-  { name: "Meetings Management", desc: "Capture meeting decisions, assign actions live, and track follow-through so safety commitments do not get lost.", color: "#059669", icon: "calendar" },
-  { name: "Non-conformance", desc: "Record non-conformances, investigate root causes, assign corrective actions, and monitor closure to prevent recurrence.", color: "#f97316", icon: "x-circle" },
-  { name: "Permit to Work", desc: "Digitise high-risk work permits with configurable approvals, linked controls, expiry tracking, and live permit visibility.", color: "#155eef", icon: "lock" },
-  { name: "Risk Assessment", desc: "Identify hazards, assess risk levels, and document controls in a consistent workflow that supports safer operational decisions.", color: "#6366f1", icon: "shield" },
-  { name: "Training Management", desc: "Manage training records, competency requirements, certification expiries, and gap analysis to keep every worker current.", color: "#f59e0b", icon: "graduation" },
+  { name: "Action Tracker",           href: "/modules/action-tracker", desc: "Track corrective and preventive actions to closure with owners, due dates, reminders, and full accountability.", color: "#155eef", icon: "check-circle" },
+  { name: "Audit Management",         href: "#", desc: "Plan and run audits with configurable checklists, structured findings, and follow-up workflows that close compliance gaps faster.", color: "#6366f1", icon: "clipboard" },
+  { name: "Customer Complaints",      href: "#", desc: "Capture, assign, investigate and resolve customer complaints through a structured workflow with full audit trail.", color: "#0891b2", icon: "chat-warning" },
+  { name: "Emergency Response Drills",href: "#", desc: "Schedule, record, and review emergency drills so teams can test readiness and turn lessons learned into tracked actions.", color: "#ef4444", icon: "alarm" },
+  { name: "File Management",          href: "#", desc: "Centralise EHSQ documents with version control, access permissions and expiry alerts — always the right version at the point of need.", color: "#059669", icon: "folder" },
+  { name: "HSE Observations",         href: "#", desc: "Report unsafe acts, unsafe conditions, and positive behaviours in real time to strengthen proactive safety reporting across sites.", color: "#f59e0b", icon: "eye" },
+  { name: "Inspections",              href: "#", desc: "Conduct digital inspections with custom forms, instant findings capture, and reporting that helps teams act on issues sooner.", color: "#155eef", icon: "search" },
+  { name: "Incident Management",      href: "#", desc: "Manage incidents, accidents, and near misses through reporting, investigation, root cause analysis, and corrective action workflows.", color: "#ef4444", icon: "warning" },
+  { name: "Legal Register",           href: "#", desc: "Maintain a central record of legal and regulatory obligations so your teams can monitor updates and stay audit-ready.", color: "#7c3aed", icon: "book" },
+  { name: "Management of Change",     href: "#", desc: "Control operational and process changes with structured reviews, risk assessments, approvals, and full implementation traceability.", color: "#0891b2", icon: "arrows-cycle" },
+  { name: "Meetings Management",      href: "#", desc: "Capture meeting decisions, assign actions live, and track follow-through so safety commitments do not get lost.", color: "#059669", icon: "calendar" },
+  { name: "Non-conformance",          href: "#", desc: "Record non-conformances, investigate root causes, assign corrective actions, and monitor closure to prevent recurrence.", color: "#f97316", icon: "x-circle" },
+  { name: "Permit to Work",           href: "#", desc: "Digitise high-risk work permits with configurable approvals, linked controls, expiry tracking, and live permit visibility.", color: "#155eef", icon: "lock" },
+  { name: "Risk Assessment",          href: "#", desc: "Identify hazards, assess risk levels, and document controls in a consistent workflow that supports safer operational decisions.", color: "#6366f1", icon: "shield" },
+  { name: "Training Management",      href: "#", desc: "Manage training records, competency requirements, certification expiries, and gap analysis to keep every worker current.", color: "#f59e0b", icon: "graduation" },
 ];
 
-const INITIAL_COUNT = 6;
-const STEP = 3; // reveal 3 modules per click
+const INITIAL_ROWS = 2;
+const COLS = 3;
+const STEP = COLS; // reveal one row (3 items) at a time
 
 // ── Module cell ────────────────────────────────────────────────────────────
 
-function ModuleCell({ mod, isAnimated }: {
-  mod: typeof MODULES[number] & { href?: string };
-  isAnimated: boolean;
+function ModuleCell({ mod, isLastRow, colIndex }: {
+  mod: typeof MODULES[number];
+  isLastRow: boolean;
+  colIndex: number;
 }) {
   const [linkHovered, setLinkHovered] = useState(false);
 
@@ -144,9 +147,10 @@ function ModuleCell({ mod, isAnimated }: {
     <div
       className="flex flex-col gap-3 px-5 sm:px-7 py-6 sm:py-8"
       style={{
-        opacity: isAnimated ? 1 : 0,
-        transform: isAnimated ? "translateY(0)" : "translateY(12px)",
-        transition: "opacity 0.4s ease, transform 0.4s ease",
+        borderBottom: !isLastRow ? "1px solid #e5e7eb" : "none",
+        borderRight: colIndex < COLS - 1 ? "1px solid #e5e7eb" : "none",
+        borderLeft: "none",
+        borderTop: "none",
       }}
     >
       {/* Icon */}
@@ -158,7 +162,7 @@ function ModuleCell({ mod, isAnimated }: {
       </div>
 
       {/* Name */}
-      <h3 className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[15px] text-[#0a0f1e] leading-[1.5] sm:leading-snug">
+      <h3 className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[15px] text-[#0a0f1e] leading-snug">
         {mod.name}
       </h3>
 
@@ -168,38 +172,21 @@ function ModuleCell({ mod, isAnimated }: {
       </p>
 
       {/* Explore link — only interactive element */}
-      {mod.href ? (
-        <Link
-          href={mod.href}
-          onMouseEnter={() => setLinkHovered(true)}
-          onMouseLeave={() => setLinkHovered(false)}
-          className="mt-1 self-start flex items-center gap-1 font-[family-name:var(--font-dm-sans)] font-medium text-[13px] transition-all duration-200"
-          style={{
-            color: linkHovered ? "#cc5700" : "#FF6D00",
-            transform: linkHovered ? "translateX(3px)" : "translateX(0)",
-          }}
-        >
-          <span>Explore</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
-      ) : (
-        <button
-          onMouseEnter={() => setLinkHovered(true)}
-          onMouseLeave={() => setLinkHovered(false)}
-          className="mt-1 self-start flex items-center gap-1 font-[family-name:var(--font-dm-sans)] font-medium text-[13px] transition-all duration-200"
-          style={{
-            color: linkHovered ? "#cc5700" : "#FF6D00",
-            transform: linkHovered ? "translateX(3px)" : "translateX(0)",
-          }}
-        >
-          <span>Explore</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      )}
+      <Link
+        href={mod.href}
+        onMouseEnter={() => setLinkHovered(true)}
+        onMouseLeave={() => setLinkHovered(false)}
+        className="mt-1 self-start flex items-center gap-1 font-[family-name:var(--font-dm-sans)] font-medium text-[13px] transition-all duration-200 no-underline"
+        style={{
+          color: linkHovered ? "#cc5700" : "#FF6D00",
+          transform: linkHovered ? "translateX(3px)" : "translateX(0)",
+        }}
+      >
+        <span>Explore</span>
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </Link>
     </div>
   );
 }
@@ -207,10 +194,10 @@ function ModuleCell({ mod, isAnimated }: {
 // ── Main component ─────────────────────────────────────────────────────────
 
 export default function ProductModules() {
-  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
-  // Track which item indices have finished their entrance animation
-  const [animatedItems, setAnimatedItems] = useState<Set<number>>(
-    () => new Set(Array.from({ length: INITIAL_COUNT }, (_, i) => i))
+  const [visibleCount, setVisibleCount] = useState(INITIAL_ROWS * COLS);
+  // Track which row indices have finished their entrance animation
+  const [animatedRows, setAnimatedRows] = useState<Set<number>>(
+    () => new Set(Array.from({ length: INITIAL_ROWS }, (_, i) => i))
   );
   const [sectionEl, setSectionEl] = useState<HTMLElement | null>(null);
 
@@ -218,73 +205,73 @@ export default function ProductModules() {
   const hasMore = visibleCount < MODULES.length;
 
   const handleViewMore = () => {
-    const prevCount = visibleCount;
     const nextCount = Math.min(visibleCount + STEP, MODULES.length);
     setVisibleCount(nextCount);
-    // Reveal new items on the next frame so they animate in
+    // Mark the new row index as animated after a brief delay (let React render first)
+    const newRowIdx = Math.ceil(visibleCount / COLS);
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        setAnimatedItems((prev) => {
-          const next = new Set(prev);
-          for (let i = prevCount; i < nextCount; i++) next.add(i);
-          return next;
-        });
+        setAnimatedRows((prev) => new Set([...prev, newRowIdx]));
       });
     });
   };
 
   const handleViewLess = () => {
-    setVisibleCount(INITIAL_COUNT);
-    setAnimatedItems(new Set(Array.from({ length: INITIAL_COUNT }, (_, i) => i)));
+    setVisibleCount(INITIAL_ROWS * COLS);
+    setAnimatedRows(new Set(Array.from({ length: INITIAL_ROWS }, (_, i) => i)));
     // Scroll back to top of this section so user doesn't end up at the bottom
     if (sectionEl) {
       sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
-  // Last-row item counts per breakpoint, used for hiding bottom borders.
-  // visibleCount is always a multiple of 3 (INITIAL=6, STEP=3) → 3-col last row always full.
-  const lastRow2col = visibleCount % 2 === 0 ? 2 : 1;
-  const lastRow3col = 3;
+  // Build rows for correct border logic
+  const rows: typeof MODULES[] = [];
+  for (let i = 0; i < visibleModules.length; i += COLS) {
+    rows.push(visibleModules.slice(i, i + COLS));
+  }
 
   return (
-    <section ref={(el) => setSectionEl(el)} className="bg-white py-[40px] md:py-[60px] lg:py-[110px] px-4 md:px-6">
-      {/* Internal grid lines only — outer edges have no border. Selectors target the last column
-          at each breakpoint and the items that sit in the visually-last row. */}
+    <section ref={(el) => setSectionEl(el)} className="bg-white py-[50px] md:py-[90px] lg:py-[110px] px-4 md:px-6">
+      {/* Fix 2-col border on sm breakpoint: colIndex=1 should not have right border in 2-column layout */}
       <style>{`
-        .modules-grid > * {
-          border-right: 1px solid #e5e7eb;
-          border-bottom: 1px solid #e5e7eb;
-        }
-        @media (max-width: 639px) {
-          .modules-grid > * { border-right: none; }
-          .modules-grid > *:last-child { border-bottom: none; }
-        }
         @media (min-width: 640px) and (max-width: 1023px) {
-          .modules-grid > *:nth-child(2n) { border-right: none; }
-          .modules-grid > *:nth-last-child(-n+${lastRow2col}) { border-bottom: none; }
-        }
-        @media (min-width: 1024px) {
-          .modules-grid > *:nth-child(3n) { border-right: none; }
-          .modules-grid > *:nth-last-child(-n+${lastRow3col}) { border-bottom: none; }
+          .modules-row > *:nth-child(2n) { border-right: none !important; }
         }
       `}</style>
       <div className="max-w-[1160px] mx-auto">
 
         {/* Section title */}
-        <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-[1.5] sm:leading-tight tracking-[-0.025em] text-center mb-10 md:mb-14 text-[#1b1b1b]">
+        <h2 className="font-[family-name:var(--font-gothic-a1)] font-bold text-[28px] sm:text-[36px] md:text-[42px] leading-tight tracking-[-0.025em] text-center mb-10 md:mb-14 text-[#1b1b1b]">
           Our <span style={{ color: "#0060F9" }}>Modules</span>
         </h2>
 
-        {/* Flat grid — wraps naturally per breakpoint, no orphan rows */}
-        <div className="modules-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
-          {visibleModules.map((mod, idx) => (
-            <ModuleCell
-              key={mod.name}
-              mod={mod}
-              isAnimated={animatedItems.has(idx)}
-            />
-          ))}
+        {/* Grid — no outer border, internal lines only */}
+        <div className="w-full">
+          {rows.map((row, rowIdx) => {
+            const isLastVisibleRow = rowIdx === rows.length - 1;
+            const isVisible = animatedRows.has(rowIdx);
+            return (
+              <div
+                key={rowIdx}
+                className="modules-row grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateY(0)" : "translateY(12px)",
+                  transition: "opacity 0.4s ease, transform 0.4s ease",
+                }}
+              >
+                {row.map((mod, colIdx) => (
+                  <ModuleCell
+                    key={mod.name}
+                    mod={mod}
+                    isLastRow={isLastVisibleRow}
+                    colIndex={colIdx}
+                  />
+                ))}
+              </div>
+            );
+          })}
         </div>
 
         {/* View more / View less */}
@@ -327,16 +314,16 @@ export default function ProductModules() {
             Book a personalised walkthrough and see exactly how EHSWatch maps to your{" "}
             <strong className="font-semibold">industry&rsquo;s workflows</strong> and compliance requirements.
           </p>
-          <a
+          <GlareButton
             href="#"
-            className="shrink-0 inline-flex items-center gap-2 px-7 py-3 rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white hover:opacity-90 transition-opacity whitespace-nowrap"
+            className="shrink-0 inline-flex items-center gap-2 px-7 py-3 rounded-full font-[family-name:var(--font-dm-sans)] font-medium text-[15px] text-white whitespace-nowrap"
             style={{ backgroundImage: "linear-gradient(102.8deg, #ffa964 0.12%, #ff8e37 34.34%, #ff7812 50.27%, #ff6d00 119.92%)" }}
           >
             Book a Demo
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </GlareButton>
         </div>
 
       </div>
