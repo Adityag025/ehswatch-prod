@@ -327,7 +327,7 @@ export default function HeroDashboard() {
                   </svg>
 
                   {/* Legend */}
-                  <div className="flex flex-row sm:flex-col flex-wrap justify-center gap-x-2 gap-y-1 sm:gap-2">
+                  <div className="flex flex-col gap-1 sm:gap-2">
                     {DONUT_SEGMENTS.map((seg) => (
                       <div key={seg.label} className="flex items-center gap-1 sm:gap-1.5">
                         <div
