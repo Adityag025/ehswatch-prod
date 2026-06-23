@@ -501,7 +501,9 @@ export default function IRISChatShowcase() {
   const [voicePhase, setVoicePhase] = useState<0|1|2>(0);
 
   // Refs to avoid stale closures and prevent re-triggering on every scroll tick
-  const prevStepRef        = useRef<number>(-1);   // track actual step changes
+  const prevStepRef        = useRef<number>(-1);   // currently displayed step
+  const targetStepRef      = useRef<number>(0);    // scroll-position target
+  const isSteppingRef      = useRef<boolean>(false); // animation queue running
   const voiceTimerT1       = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const voiceTimerT2       = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const irisTimerRef       = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -530,34 +532,17 @@ export default function IRISChatShowcase() {
     return () => { document.getElementById("ics-css")?.remove(); };
   }, []);
 
-  // Scroll → step (only fire when step actually changes)
+  // Smooth scroll → step with animation queue so fast scroll plays each step in order
   useEffect(() => {
-    const onScroll = () => {
-      const el = outerRef.current;
-      if (!el) return;
-      const scrolled = -el.getBoundingClientRect().top;
-      const stepSize = window.innerHeight / 10; // ~1 scroll click per step
-      const newStep = scrolled < 0 ? -1 : Math.min(Math.floor(scrolled / stepSize), 5);
+    const STEP_ANIM_MS = 370; // ms between steps when queued (matches ics-msg-in ~380ms)
+    let stepTimer: ReturnType<typeof setTimeout> | undefined;
 
-      if (newStep === prevStepRef.current) return; // no change — skip
-      prevStepRef.current = newStep;
-
-      if (newStep < 0) {
-        // Scrolled above section — reset everything
-        setStep(0);
-        clearTimeout(voiceTimerT1.current);
-        clearTimeout(voiceTimerT2.current);
-        clearTimeout(irisTimerRef.current);
-        return;
-      }
-
-      setStep(newStep);
-
-      if (newStep === 0) {
-        // Entering step 0 (fresh or scrolled back) — start voice sequence
+    const applyStep = (next: number) => {
+      prevStepRef.current = next;
+      setStep(next);
+      if (next === 0) {
         startVoice();
       } else {
-        // Steps 1–5: clear voice timers, show user message immediately, iris after delay
         clearTimeout(voiceTimerT1.current);
         clearTimeout(voiceTimerT2.current);
         setShowIris(false);
@@ -566,9 +551,54 @@ export default function IRISChatShowcase() {
       }
     };
 
+    const tick = () => {
+      const current = prevStepRef.current;
+      const target  = targetStepRef.current;
+      if (current === target) { isSteppingRef.current = false; return; }
+      const next = current < target ? current + 1 : current - 1;
+      applyStep(next);
+      stepTimer = setTimeout(tick, STEP_ANIM_MS);
+    };
+
+    const scheduleToward = (target: number) => {
+      targetStepRef.current = target;
+      if (!isSteppingRef.current && prevStepRef.current !== target) {
+        isSteppingRef.current = true;
+        tick();
+      }
+    };
+
+    const onScroll = () => {
+      const el = outerRef.current;
+      if (!el) return;
+      const scrolled = -el.getBoundingClientRect().top;
+      const stepSize = window.innerHeight / 10; // ~1 scroll click per step
+      const newStep = scrolled < 0 ? -1 : Math.min(Math.floor(scrolled / stepSize), 5);
+
+      if (newStep < 0) {
+        // Scrolled above section — cancel queue and reset
+        clearTimeout(stepTimer);
+        isSteppingRef.current = false;
+        targetStepRef.current = 0;
+        prevStepRef.current = -1;
+        setStep(0);
+        setVoicePhase(0);
+        setShowIris(false);
+        clearTimeout(voiceTimerT1.current);
+        clearTimeout(voiceTimerT2.current);
+        clearTimeout(irisTimerRef.current);
+        return;
+      }
+
+      scheduleToward(newStep);
+    };
+
     window.addEventListener("scroll", onScroll, { passive:true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(stepTimer);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
