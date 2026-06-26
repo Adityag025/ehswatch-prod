@@ -10,20 +10,27 @@ import WorkEnvironments from "@/components/sections/WorkEnvironments";
 import Testimonials from "@/components/sections/Testimonials";
 import Blogs from "@/components/sections/Blogs";
 import CTABanner from "@/components/sections/CTABanner";
+import { getTestimonials, getClientLogos } from "@/lib/api";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [testimonialsRes, logosRes] = await Promise.all([
+    getTestimonials(),
+    getClientLogos(),
+  ]);
+  const cmsTestimonials = testimonialsRes?.data ?? [];
+  const cmsLogos = logosRes?.data ?? [];
   return (
     <>
       <Navbar lightHero />
       <main>
         <Hero />
-        <TrustedLogos />
+        <TrustedLogos cmsLogos={cmsLogos.length > 0 ? cmsLogos : undefined} />
         <Stats />
         <PainPoints />
         <OnePlatform />
         <AISection />
         <WorkEnvironments />
-        <Testimonials />
+        <Testimonials cmsItems={cmsTestimonials.length > 0 ? cmsTestimonials : undefined} />
         <Blogs />
         <CTABanner />
       </main>

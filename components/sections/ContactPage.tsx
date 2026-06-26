@@ -63,7 +63,9 @@ export default function ContactPage() {
 
   const serviceValue = watch("service");
 
-  const onSubmit = (_data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    const { submitForm } = await import("@/lib/api");
+    await submitForm("contact", data as unknown as Record<string, unknown>);
     setSubmitted(true);
   };
 

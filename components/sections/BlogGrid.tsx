@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import type { CmsBlogPost } from "@/lib/types";
 
 /* ── Data ───────────────────────────────────────────────────── */
 interface Post {
@@ -17,7 +18,22 @@ interface Post {
   img: string;
 }
 
-const POSTS: Post[] = [
+function cmsToPost(p: CmsBlogPost): Post {
+  return {
+    slug:     p.attributes.slug,
+    category: p.attributes.category ?? "General",
+    topic:    p.attributes.category ?? "General",
+    format:   "Article",
+    title:    p.attributes.title,
+    excerpt:  p.attributes.excerpt,
+    date:     new Date(p.attributes.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+    dateSort: new Date(p.attributes.published_at).getTime(),
+    readTime: `${p.attributes.read_time_minutes} min read`,
+    img:      p.attributes.cover?.url ?? "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+  };
+}
+
+const FALLBACK_POSTS: Post[] = [
   {
     slug: "near-miss-reporting-culture",
     category: "Incident Management",
@@ -252,7 +268,9 @@ function FilterSelect({ value, onChange, options }: { value: string; onChange: (
 }
 
 /* ── Section ─────────────────────────────────────────────────── */
-export default function BlogGrid() {
+export default function BlogGrid({ cmsPosts }: { cmsPosts?: CmsBlogPost[] }) {
+  const POSTS = cmsPosts && cmsPosts.length > 0 ? cmsPosts.map(cmsToPost) : FALLBACK_POSTS;
+
   const [search,   setSearch]   = useState("");
   const [timeline, setTimeline] = useState(TIMELINE_OPTIONS[0]);
   const [topic,    setTopic]    = useState(TOPIC_OPTIONS[0]);
