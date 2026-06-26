@@ -4,12 +4,17 @@ const IS_VERCEL = process.env.VERCEL === '1';
 const BASE_PATH = IS_VERCEL ? "" : "/ehswatch-stage";
 
 const nextConfig: NextConfig = {
-  output: "export",
   trailingSlash: true,
   basePath: BASE_PATH,
   assetPrefix: BASE_PATH,
   env: { NEXT_PUBLIC_BASE_PATH: BASE_PATH },
-  images: { unoptimized: true },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "stage.odigma.ooo" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+    ],
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

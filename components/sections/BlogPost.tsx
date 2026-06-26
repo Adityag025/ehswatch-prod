@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { basePath } from "@/lib/basePath";
+import type { CmsBlogPost } from "@/lib/types";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Placeholder post data — swap per slug when real content exists
@@ -114,8 +115,19 @@ function getPrevNext(slug: string) {
 // Main component
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function BlogPost({ slug }: { slug: string }) {
-  const post = getPost(slug);
+export default function BlogPost({ slug, cmsPost }: { slug: string; cmsPost?: CmsBlogPost }) {
+  const post: BlogPostData = cmsPost
+    ? {
+        slug,
+        category: cmsPost.attributes.category ?? "General",
+        title: cmsPost.attributes.title,
+        date: new Date(cmsPost.attributes.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }),
+        readTime: `${cmsPost.attributes.read_time_minutes} min read`,
+        author: cmsPost.attributes.author?.name ?? "EHSWatch Team",
+        authorRole: "EHS Editorial",
+        coverImg: cmsPost.attributes.cover?.url ?? `${basePath}/images/blogs/blog-1.png`,
+      }
+    : getPost(slug);
   const { prev, next } = getPrevNext(slug);
 
   return (
@@ -228,91 +240,93 @@ export default function BlogPost({ slug }: { slug: string }) {
         <div className="px-4 sm:px-6 pt-8 pb-0">
           <div className="max-w-[720px] mx-auto">
 
-            {/* Lead paragraph */}
-            <div className="blog-body">
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
-                Every safety professional knows the feeling: a near-miss occurs on site, the supervisor makes a mental note, and by the end of the shift it is forgotten. No record, no investigation, no corrective action. The incident that could have prevented a serious injury simply disappears into the operational noise.
-              </p>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
-                This is not a problem of awareness. Most EHS teams understand why near-miss reporting matters — it is the backbone of proactive safety management and a direct indicator of cultural health. The challenge is consistently capturing those events in a way that leads to meaningful follow-through.
-              </p>
-            </div>
+            {cmsPost ? (
+              <>
+                {/* Cover image */}
+                <div className="relative w-full rounded-2xl overflow-hidden mb-10" style={{ aspectRatio: "16/9" }}>
+                  <Image src={post.coverImg} alt={post.title} fill className="object-cover" />
+                </div>
 
-            {/* Cover image */}
-            <div className="relative w-full rounded-2xl overflow-hidden my-10" style={{ aspectRatio: "16/9" }}>
-              <Image
-                src={post.coverImg}
-                alt={post.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            {/* Body */}
-            <div className="blog-body">
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
-                The root cause of poor near-miss reporting is almost never a lack of willingness. Field workers notice hazards. They experience close calls. The barrier is friction: the process of reporting feels bureaucratic, there is no visible outcome from previous reports, and there is a persistent — sometimes justified — concern about blame.
-              </p>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
-                Organisations that successfully build reporting cultures do so by reducing that friction at every touchpoint. They make it simple to report, visible that reports are acted upon, and safe to raise concerns without fear of disciplinary consequence. The technology and the culture must move together.
-              </p>
-            </div>
-
-            {/* Pull quote */}
-            <blockquote className="my-12 text-center">
-              <p
-                className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[22px] sm:text-[26px] md:text-[28px] leading-[1.4] tracking-[-0.01em] text-[#0a0f1e]"
-                style={{ fontStyle: "italic" }}
-              >
-                &ldquo;The organisations with the lowest incident rates are rarely the ones with the fewest hazards — they are the ones that see and act on them fastest.&rdquo;
-              </p>
-              <footer className="mt-4 font-[family-name:var(--font-dm-sans)] text-[13px] text-[#9ca3af]">
-                — EHSWatch Research, 2025
-              </footer>
-            </blockquote>
-
-            {/* More body */}
-            <div className="blog-body">
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
-                The practical starting point is removing the paper form. Mobile reporting tools that allow a worker to log a near-miss in under sixty seconds — with a photo, a location and a brief description — consistently outperform paper-based systems in volume and quality of reports.
-              </p>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
-                But technology alone is insufficient. The second step is closing the loop visibly. When a near-miss is reported, the reporter must see what happened as a result — whether an action was raised, what the finding was, and whether the hazard has been resolved. This feedback loop is the single most powerful driver of sustained reporting behaviour.
-              </p>
-            </div>
-
-            {/* Dual image grid */}
-            <div className="grid grid-cols-2 gap-4 my-10">
-              <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: "4/3" }}>
-                <Image
-                  src={post.secondaryImg ?? post.coverImg}
-                  alt="Supporting visual"
-                  fill
-                  className="object-cover"
+                {/* CMS body HTML */}
+                <div
+                  className="blog-body prose prose-lg max-w-none font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151]"
+                  dangerouslySetInnerHTML={{ __html: cmsPost.attributes.body }}
                 />
-              </div>
-              <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: "4/3" }}>
-                <Image
-                  src={post.tertiaryImg ?? post.coverImg}
-                  alt="Supporting visual"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
+              </>
+            ) : (
+              <>
+                {/* Lead paragraph */}
+                <div className="blog-body">
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
+                    Every safety professional knows the feeling: a near-miss occurs on site, the supervisor makes a mental note, and by the end of the shift it is forgotten. No record, no investigation, no corrective action. The incident that could have prevented a serious injury simply disappears into the operational noise.
+                  </p>
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
+                    This is not a problem of awareness. Most EHS teams understand why near-miss reporting matters — it is the backbone of proactive safety management and a direct indicator of cultural health. The challenge is consistently capturing those events in a way that leads to meaningful follow-through.
+                  </p>
+                </div>
 
-            {/* Closing body */}
-            <div className="blog-body">
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
-                Leadership behaviour is the third pillar. When senior managers actively reference near-miss reports in safety meetings, thank reporters by name, and share the outcomes of investigations, reporting rates reliably increase. Psychological safety is built through demonstrated action, not policy statements.
-              </p>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
-                Platforms like EHSWatch embed all three elements — simple mobile capture, automatic assignment of corrective actions, and real-time dashboards that show reporting trends to both workers and leadership. The result is a system where reporting is the path of least resistance, not the path of most friction.
-              </p>
-              <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
-                Building a near-miss culture is not a six-month project with a launch date. It is an ongoing commitment to making it easier and safer to speak up than to stay silent. Organisations that sustain it over time consistently outperform their peers on every incident metric that matters.
-              </p>
-            </div>
+                {/* Cover image */}
+                <div className="relative w-full rounded-2xl overflow-hidden my-10" style={{ aspectRatio: "16/9" }}>
+                  <Image src={post.coverImg} alt={post.title} fill className="object-cover" />
+                </div>
+
+                {/* Body */}
+                <div className="blog-body">
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
+                    The root cause of poor near-miss reporting is almost never a lack of willingness. Field workers notice hazards. They experience close calls. The barrier is friction: the process of reporting feels bureaucratic, there is no visible outcome from previous reports, and there is a persistent — sometimes justified — concern about blame.
+                  </p>
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
+                    Organisations that successfully build reporting cultures do so by reducing that friction at every touchpoint. They make it simple to report, visible that reports are acted upon, and safe to raise concerns without fear of disciplinary consequence. The technology and the culture must move together.
+                  </p>
+                </div>
+
+                {/* Pull quote */}
+                <blockquote className="my-12 text-center">
+                  <p
+                    className="font-[family-name:var(--font-gothic-a1)] font-semibold text-[22px] sm:text-[26px] md:text-[28px] leading-[1.4] tracking-[-0.01em] text-[#0a0f1e]"
+                    style={{ fontStyle: "italic" }}
+                  >
+                    &ldquo;The organisations with the lowest incident rates are rarely the ones with the fewest hazards — they are the ones that see and act on them fastest.&rdquo;
+                  </p>
+                  <footer className="mt-4 font-[family-name:var(--font-dm-sans)] text-[13px] text-[#9ca3af]">
+                    — EHSWatch Research, 2025
+                  </footer>
+                </blockquote>
+
+                {/* More body */}
+                <div className="blog-body">
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
+                    The practical starting point is removing the paper form. Mobile reporting tools that allow a worker to log a near-miss in under sixty seconds — with a photo, a location and a brief description — consistently outperform paper-based systems in volume and quality of reports.
+                  </p>
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
+                    But technology alone is insufficient. The second step is closing the loop visibly. When a near-miss is reported, the reporter must see what happened as a result — whether an action was raised, what the finding was, and whether the hazard has been resolved. This feedback loop is the single most powerful driver of sustained reporting behaviour.
+                  </p>
+                </div>
+
+                {/* Dual image grid */}
+                <div className="grid grid-cols-2 gap-4 my-10">
+                  <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: "4/3" }}>
+                    <Image src={post.secondaryImg ?? post.coverImg} alt="Supporting visual" fill className="object-cover" />
+                  </div>
+                  <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: "4/3" }}>
+                    <Image src={post.tertiaryImg ?? post.coverImg} alt="Supporting visual" fill className="object-cover" />
+                  </div>
+                </div>
+
+                {/* Closing body */}
+                <div className="blog-body">
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty">
+                    Leadership behaviour is the third pillar. When senior managers actively reference near-miss reports in safety meetings, thank reporters by name, and share the outcomes of investigations, reporting rates reliably increase. Psychological safety is built through demonstrated action, not policy statements.
+                  </p>
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
+                    Platforms like EHSWatch embed all three elements — simple mobile capture, automatic assignment of corrective actions, and real-time dashboards that show reporting trends to both workers and leadership. The result is a system where reporting is the path of least resistance, not the path of most friction.
+                  </p>
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[16px] sm:text-[17px] leading-[1.85] text-[#374151] text-pretty mt-6">
+                    Building a near-miss culture is not a six-month project with a launch date. It is an ongoing commitment to making it easier and safer to speak up than to stay silent. Organisations that sustain it over time consistently outperform their peers on every incident metric that matters.
+                  </p>
+                </div>
+              </>
+            )}
 
             {/* Closing divider */}
             <div className="blog-divider mt-10">

@@ -3,8 +3,9 @@
 import Reveal from "@/components/ui/Reveal";
 import Image from "next/image";
 import { basePath } from "@/lib/basePath";
+import type { CmsClientLogo } from "@/lib/types";
 
-const CLIENT_LOGOS = [
+const FALLBACK_LOGOS = [
   { src: basePath + "/images/clients/al-sumri.png",      alt: "Al Sumri" },
   { src: basePath + "/images/clients/albaraka.png",      alt: "AlBaraka" },
   { src: basePath + "/images/clients/bunduq.png",        alt: "Bunduq" },
@@ -23,10 +24,11 @@ const CLIENT_LOGOS = [
   { src: basePath + "/images/clients/synergies.png",     alt: "Synergies" },
 ];
 
-// Triple the array so the seamless loop has plenty of copies
-const TRACK = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
-
-export default function TrustedLogos() {
+export default function TrustedLogos({ cmsLogos }: { cmsLogos?: CmsClientLogo[] }) {
+  const CLIENT_LOGOS = cmsLogos && cmsLogos.length > 0
+    ? cmsLogos.map((l) => ({ src: l.attributes.logo.url, alt: l.attributes.name }))
+    : FALLBACK_LOGOS;
+  const TRACK = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   return (
     <section className="bg-white pt-16 md:pt-[80px] pb-10 md:pb-[60px]">
       <div className="flex flex-col gap-6 md:gap-[42px]">

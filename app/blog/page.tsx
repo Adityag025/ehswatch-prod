@@ -8,6 +8,7 @@ import Reveal from "@/components/ui/Reveal";
 import GlareButton from "@/components/ui/GlareButton";
 import { basePath } from "@/lib/basePath";
 import type { Metadata } from "next";
+import { getBlogPosts } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Blog — EHSWatch",
@@ -69,13 +70,15 @@ function BlogCTA() {
   );
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const res = await getBlogPosts();
+  const cmsPosts = res?.data ?? [];
   return (
     <>
       <Navbar lightHero={true} />
       <main>
         <BlogHero />
-        <BlogGrid />
+        <BlogGrid cmsPosts={cmsPosts.length > 0 ? cmsPosts : undefined} />
         <BlogNewsletter />
         <BlogCTA />
       </main>

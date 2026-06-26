@@ -1,28 +1,16 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import type { CmsTestimonial } from "@/lib/types";
 
-const TESTIMONIALS = [
-  {
-    quote: "Everything. Our field teams report incidents in minutes, not days.",
-    author: "EHS Director, Construction Firm",
-  },
-  {
-    quote: "EHSWatch transformed how we manage compliance — what used to take weeks now takes hours.",
-    author: "Safety Manager, Oil & Gas",
-  },
-  {
-    quote: "The mobile-first approach means our site workers actually use it. Adoption went through the roof.",
-    author: "HSE Lead, Manufacturing",
-  },
-  {
-    quote: "Real-time visibility across all our sites. We caught three potential incidents before they escalated.",
-    author: "EHSQ Director, Logistics",
-  },
-  {
-    quote: "Finally, a platform that speaks the language of safety professionals, not just developers.",
-    author: "Compliance Officer, Utilities",
-  },
+interface TestimonialItem { quote: string; author: string }
+
+const FALLBACK_TESTIMONIALS: TestimonialItem[] = [
+  { quote: "Everything. Our field teams report incidents in minutes, not days.", author: "EHS Director, Construction Firm" },
+  { quote: "EHSWatch transformed how we manage compliance — what used to take weeks now takes hours.", author: "Safety Manager, Oil & Gas" },
+  { quote: "The mobile-first approach means our site workers actually use it. Adoption went through the roof.", author: "HSE Lead, Manufacturing" },
+  { quote: "Real-time visibility across all our sites. We caught three potential incidents before they escalated.", author: "EHSQ Director, Logistics" },
+  { quote: "Finally, a platform that speaks the language of safety professionals, not just developers.", author: "Compliance Officer, Utilities" },
 ];
 
 function StarRow() {
@@ -37,7 +25,10 @@ function StarRow() {
   );
 }
 
-export default function Testimonials({ title }: { title?: React.ReactNode }) {
+export default function Testimonials({ title, cmsItems }: { title?: React.ReactNode; cmsItems?: CmsTestimonial[] }) {
+  const TESTIMONIALS: TestimonialItem[] = cmsItems && cmsItems.length > 0
+    ? cmsItems.map((t) => ({ quote: t.attributes.quote, author: `${t.attributes.author_role}, ${t.attributes.author_company}` }))
+    : FALLBACK_TESTIMONIALS;
   const trackRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
   const posRef = useRef(0);
